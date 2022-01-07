@@ -1,25 +1,22 @@
-var builder = WebApplication.CreateBuilder(args);
+using CameraOperation.Models;
+using Microsoft.EntityFrameworkCore;
 
-// Add services to the container.
-builder.Services.AddRazorPages();
 
-var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+var options = new DbContextOptionsBuilder<CameraOperationContext>()
+   .UseInMemoryDatabase(databaseName: "Test")
+   .Options;
+
+using (var context = new CameraOperationContext(options))
 {
-    app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    var customer = new Customer
+    {
+        FirstName = "Elizabeth",
+        LastName = "Lincoln",
+        Address = "23 Tsawassen Blvd."
+    };
+
+    context.Customers.Add(customer);
+    context.SaveChanges();
+
 }
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapRazorPages();
-
-app.Run();
