@@ -1,22 +1,33 @@
 using CameraOperation.Models;
 using Microsoft.EntityFrameworkCore;
-
-
+using Microsoft.Extensions.DependencyInjection;
 
 var options = new DbContextOptionsBuilder<CameraOperationContext>()
-   .UseInMemoryDatabase(databaseName: "Test")
-   .Options;
+                    .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                    .Options;
 
-using (var context = new CameraOperationContext(options))
+var context = new CameraOperationContext(options);
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddRazorPages();
+builder.Services.AddControllersWithViews();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
 {
-    var customer = new Customer
-    {
-        FirstName = "Elizabeth",
-        LastName = "Lincoln",
-        Address = "23 Tsawassen Blvd."
-    };
-
-    context.Customers.Add(customer);
-    context.SaveChanges();
-
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
 }
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+
+app.MapDefaultControllerRoute();
+app.MapRazorPages();
+
+app.Run();
