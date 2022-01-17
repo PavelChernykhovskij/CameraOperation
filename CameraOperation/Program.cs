@@ -10,7 +10,7 @@ var context = new CameraOperationContext(options);
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
 
