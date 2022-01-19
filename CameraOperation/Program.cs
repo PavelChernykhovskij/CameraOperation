@@ -1,33 +1,48 @@
+using CameraOperation;
 using CameraOperation.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
-var options = new DbContextOptionsBuilder<CameraOperationContext>()
-                    .UseInMemoryDatabase(Guid.NewGuid().ToString())
-                    .Options;
-
-var context = new CameraOperationContext(options);
-
-var builder = WebApplication.CreateBuilder(args);
-
-
-builder.Services.AddRazorPages();
-builder.Services.AddControllersWithViews();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+using (CameraOperationContext db = new CameraOperationContext())
 {
-    app.UseExceptionHandler("/Error");
-    app.UseHsts();
+    // создаем два объекта User
+    User user1 = new User { Name = "Tom", Login = "Boy", Password = "123" };
+    User user2 = new User { Name = "Alice", Login = "Girl", Password = "321" };
+
+    // добавляем их в бд
+    db.Users.Add(user1);
+    db.Users.Add(user2);
+    db.SaveChanges();
+    Console.WriteLine("Объекты успешно сохранены");
+
+    // получаем объекты из бд и выводим на консоль
+    var users = db.Users.ToList();
+    Console.WriteLine("Список объектов:");
+    foreach (User u in users)
+    {
+        Console.WriteLine($"{u.Id}.{u.Name} - ( {u.Login} : {u.Password} )");
+    }
+}
+Console.Read();
+
+try
+{
+    using var host = CreateHostBuilder(args).Build();
+    await host.StartAsync();
+    await host.WaitForShutdownAsync();
+
+}
+catch (Exception ex)
+{
+    Console.WriteLine(ex.ToString());
+}
+finally
+{
+    Console.WriteLine("Завершил работу");
 }
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-
-app.MapDefaultControllerRoute();
-app.MapRazorPages();
-
-app.Run();
+static IHostBuilder CreateHostBuilder(string[] args) =>
+    Host.CreateDefaultBuilder(args)
+        .UseContentRoot(AppDomain.CurrentDomain.BaseDirectory)
+        .ConfigureWebHostDefaults(webBuilder =>
+        {
+            webBuilder.UseStartup<Startup>();
+        });
