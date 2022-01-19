@@ -7,13 +7,22 @@ namespace CameraOperation
     public class CameraOperationContext : DbContext
     {
         public DbSet<User> Users { get; set; }
-        public CameraOperationContext()
+        public DbSet<Fixation> Fixations { get; set; }
+        public DbSet<RuleOfSearchByNumber> RulesOfSearchByNumber { get; set; }
+        public DbSet<RuleOfSearchBySpeed> RulesOfSearchBySpeed { get; set; }
+        public DbSet<TriggeringByNumber> TriggeringByNumbers { get; set; }
+        public DbSet<TriggeringBySpeed> TriggeringBySpeeds { get; set; }
+
+        public CameraOperationContext(DbContextOptions<CameraOperationContext> options)
+            : base(options)
         {
+            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=helloappdb;Trusted_Connection=True;");
+            modelBuilder.Ignore<RuleOfSearch>();
         }
 
     }
