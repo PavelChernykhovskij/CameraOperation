@@ -23,6 +23,8 @@ namespace CameraOperation
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Ignore<RuleOfSearch>();
+            modelBuilder.ApplyConfiguration(new ProductConfiguration());
+            modelBuilder.ApplyConfiguration(new CompanyConfiguration());
         }
 
     }
