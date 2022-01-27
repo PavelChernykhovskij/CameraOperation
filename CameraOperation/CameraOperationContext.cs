@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using CameraOperation.Models;
+using CameraOperation.Configurations;
 
 namespace CameraOperation
 {
@@ -23,8 +24,12 @@ namespace CameraOperation
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Ignore<RuleOfSearch>();
-            modelBuilder.ApplyConfiguration(new ProductConfiguration());
-            modelBuilder.ApplyConfiguration(new CompanyConfiguration());
+            modelBuilder.ApplyConfiguration(new FixationConfiguration());
+            modelBuilder.ApplyConfiguration(new RuleOfSearchByNumberConfiguration());
+            modelBuilder.ApplyConfiguration(new RuleOfSearchBySpeedConfiguration());
+            modelBuilder.ApplyConfiguration(new TriggeringByNumberConfiguration());
+            modelBuilder.ApplyConfiguration(new TriggeringBySpeedConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
         }
 
     }

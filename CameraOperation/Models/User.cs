@@ -7,5 +7,10 @@
         public string Password { get; set; }
         public string Name { get; set; }
 
+        //public List<RuleOfSearch> RulesOfSearch { get; set; }
+
+
+        public List<RuleOfSearchByNumber> RulesOfSearchByNumber { get; set; }
+        public List<RuleOfSearchBySpeed> RulesOfSearchBySpeed { get; set; }
     }
 }

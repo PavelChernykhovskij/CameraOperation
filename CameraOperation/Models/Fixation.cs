@@ -1,4 +1,7 @@
-﻿namespace CameraOperation.Models
+﻿using CameraOperation.Configurations;
+using Microsoft.EntityFrameworkCore;
+
+namespace CameraOperation.Models
 {
     public class Fixation
     {
@@ -8,7 +11,7 @@
         public int CarSpeed { get; set; }
         public string CarNumber { get; set; }
 
-        public int UserKey { get; set; }
-        public User User { get; set; }
+        public TriggeringByNumber TriggeringByNumber { get; set; }
+        public TriggeringBySpeed TriggeringBySpeed { get; set; }
     }
 }

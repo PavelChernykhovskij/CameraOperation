@@ -1,4 +1,6 @@
-﻿namespace CameraOperation
+﻿using CameraOperation.Services;
+
+namespace CameraOperation
 {
     public class Startup
     {
@@ -20,6 +22,7 @@
             services.AddMvc();
             services.AddOptions();
             services.AddControllers();
+            services.AddHostedService<TestRepos>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -2,7 +2,8 @@
 {
     public class RuleOfSearch
     {
-        public int Id { get; set; }
+        public DateTime DateOfCreate { get; set; }
+        public User User { get; set; }
 
     }
 }
