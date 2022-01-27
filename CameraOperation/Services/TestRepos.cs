@@ -27,7 +27,7 @@ namespace CameraOperation.Services
 
             using (CameraOperationContext db = new(options))
             {
-                Console.WriteLine("Create");
+                Console.WriteLine("\nCreate");
 
                 RuleOfSearchByNumber ruleOfSearchByNumber1 = new RuleOfSearchByNumber { User = db.Users.FirstOrDefault(), DateOfCreate = DateTime.Today, Number = "231" };
                 RuleOfSearchByNumber ruleOfSearchByNumber2 = new RuleOfSearchByNumber { User = db.Users.FirstOrDefault(), DateOfCreate = DateTime.Today, Number = "2222" };
@@ -62,17 +62,17 @@ namespace CameraOperation.Services
                 foreach (User u in users)
                 {
 
-                    Console.WriteLine($"Логин: {u.Login}\nПароль: {u.Password}\nФИО: {u.Name}\nСписок правил: " );
+                    Console.WriteLine($" Логин: {u.Login}\n Пароль: {u.Password}\n ФИО: {u.Name}\n Список правил: " );
 
-                    Console.WriteLine("По номеру: ");
+                    Console.WriteLine("  По номеру: ");
                     foreach (RuleOfSearchByNumber rb in u.RulesOfSearchByNumber)
                     {
-                        Console.WriteLine($"Правило для номера { rb.Number} ");
+                        Console.WriteLine($"   Правило для номера { rb.Number} ");
                     }
-                    Console.WriteLine("По скорости: ");
+                    Console.WriteLine("  По скорости: ");
                     foreach (RuleOfSearchBySpeed rb in u.RulesOfSearchBySpeed)
                     {
-                        Console.WriteLine($"Правило для скорости { rb.Speed } ");
+                        Console.WriteLine($"   Правило для скорости { rb.Speed } ");
                     }
                     
                 }
@@ -81,16 +81,38 @@ namespace CameraOperation.Services
 
                 var rbs = db.RulesOfSearchBySpeed.ToList();
                 var rbn = db.RulesOfSearchByNumber.ToList();
+                
+                Console.WriteLine(" По номеру: ");
 
-                Console.WriteLine("По номеру: ");
+                Console.WriteLine("  Все правила: ");
                 foreach (RuleOfSearchByNumber rb in rbn)
                 {
-                    Console.WriteLine($"Пользователь {rb.User.Name} Дата создания {rb.DateOfCreate} Правило для номера { rb.Number} ");
+                    Console.WriteLine($"   Пользователь: {rb.User.Name} Дата создания: {rb.DateOfCreate} Правило для номера: { rb.Number} ");
                 }
-                Console.WriteLine("По скорости: ");
+
+                Console.WriteLine("\nПоиск правила по номеру. Введите номер: ");
+                string indexOfRuleByNumber = Console.ReadLine();
+                foreach (RuleOfSearchByNumber rb in rbn)
+                {
+                    if (indexOfRuleByNumber.Equals(rb.Number)) { Console.WriteLine($"\nПользователь: {rb.User.Name} Дата создания: {rb.DateOfCreate} Правило для номера: { rb.Number} \n"); }
+                   
+                }
+
+                Console.WriteLine(" По скорости: ");
+
+                Console.WriteLine("  Все правила: ");
                 foreach (RuleOfSearchBySpeed rb in rbs)
                 {
-                    Console.WriteLine($"Пользователь {rb.User.Name} Дата создания {rb.DateOfCreate} Правило для номера { rb.Speed} ");
+                    Console.WriteLine($"   Пользователь: {rb.User.Name} Дата создания: {rb.DateOfCreate} Правило для номера: { rb.Speed} ");
+                }
+
+                Console.WriteLine("\nПоиск правила по скорости. Введите скорость: ");
+                string indexOfRuleBySpeed = Console.ReadLine();
+                int indexOfRuleBySpeed1 = int.Parse(indexOfRuleBySpeed);
+                foreach (RuleOfSearchBySpeed rb in rbs)
+                {
+                    if (indexOfRuleBySpeed1 == rb.Speed) { Console.WriteLine($"\nПользователь {rb.User.Name} Дата создания: {rb.DateOfCreate} Правило для номера: { rb.Speed} "); }
+
                 }
 
                 Console.WriteLine("\nСработки:");
@@ -98,15 +120,15 @@ namespace CameraOperation.Services
                 var tbn = db.TriggeringByNumbers.ToList();
                 var tbs = db.TriggeringBySpeeds.ToList();
 
-                Console.WriteLine("По номеру: ");
+                Console.WriteLine(" По номеру: ");
                 foreach (TriggeringByNumber tr in tbn)
                 {
-                    Console.WriteLine($"Номер автомобиля: {tr.Fixation.CarNumber} - Дата фиксации {tr.Fixation.FixationDate} ");
+                    Console.WriteLine($"   Номер автомобиля: {tr.Fixation.CarNumber} - Дата фиксации: {tr.Fixation.FixationDate} ");
                 }
-                Console.WriteLine("По скорости: ");
+                Console.WriteLine(" По скорости: ");
                 foreach (TriggeringBySpeed tr in tbs)
                 {
-                    Console.WriteLine($"Скорость автомобиля: {tr.Fixation.CarSpeed} - Дата фиксации {tr.Fixation.FixationDate} ");
+                    Console.WriteLine($"   Скорость автомобиля: {tr.Fixation.CarSpeed} - Дата фиксации: {tr.Fixation.FixationDate} ");
                 }
 
                 Console.WriteLine("\nФиксациии:");
@@ -117,8 +139,8 @@ namespace CameraOperation.Services
                     Console.WriteLine($"Номер автомбиля: {f.CarNumber} Дата фиксации: {f.FixationDate} Скорость автомобиля: {f.CarSpeed}");
                 }
 
-                Console.WriteLine("Update\n");
-                Console.WriteLine("Измененные данные правил розыска:");
+                Console.WriteLine("\nUpdate\n");
+                Console.WriteLine("Измененные данные правил розыска после обновления:");
 
                 RuleOfSearchByNumber rbn1 = db.RulesOfSearchByNumber.FirstOrDefault(rbn => rbn.Number == "231");
                 if (rbn1 != null)
@@ -132,27 +154,48 @@ namespace CameraOperation.Services
                     rbs1.Speed = 60;
                     db.SaveChanges();
                 }
-
+                Console.WriteLine(" По номеру: ");
                 foreach (RuleOfSearchByNumber rb in rbn)
                 {
-                    Console.WriteLine($"Пользователь {rb.User.Name} Дата создания {rb.DateOfCreate} Правило для номера { rb.Number} ");
+                    Console.WriteLine($"  Пользователь: {rb.User.Name} Дата создания: {rb.DateOfCreate} Правило для номера: { rb.Number} ");
                 }
-                Console.WriteLine("По скорости: ");
+                Console.WriteLine(" По скорости: ");
                 foreach (RuleOfSearchBySpeed rb in rbs)
                 {
-                    Console.WriteLine($"Пользователь {rb.User.Name} Дата создания {rb.DateOfCreate} Правило для номера { rb.Speed} ");
+                    Console.WriteLine($"  Пользователь: {rb.User.Name} Дата создания: {rb.DateOfCreate} Правило для номера: { rb.Speed} ");
                 }
 
+                Console.WriteLine("\nDelete\n");
+                Console.WriteLine("Измененные данные правил розыска после удаления:");
 
+                RuleOfSearchByNumber rbn2 = db.RulesOfSearchByNumber.FirstOrDefault(rbn => rbn.Number == "2222");
+                if (rbn2 != null)
+                {
+                    db.RulesOfSearchByNumber.Remove(rbn2);
+                    db.SaveChanges();
+                }
+                RuleOfSearchBySpeed rbs2 = db.RulesOfSearchBySpeed.FirstOrDefault(rbn => rbn.Speed == 90);
+                if (rbs2 != null)
+                {
+                    db.RulesOfSearchBySpeed.Remove(rbs2);
+                    db.SaveChanges();
+                }
+
+                var rbs3 = db.RulesOfSearchBySpeed.ToList();
+                var rbn3 = db.RulesOfSearchByNumber.ToList();
+
+                Console.WriteLine(" По номеру: ");
+                foreach (RuleOfSearchByNumber rb in rbn3)
+                {
+                    Console.WriteLine($"  Пользователь: {rb.User.Name} Дата создания: {rb.DateOfCreate} Правило для номера: { rb.Number} ");
+                }
+                Console.WriteLine(" По скорости: ");
+                foreach (RuleOfSearchBySpeed rb in rbs3)
+                {
+                    Console.WriteLine($"  Пользователь: {rb.User.Name} Дата создания: {rb.DateOfCreate} Правило для номера: { rb.Speed} ");
+                }
 
             }
-
-            
-
-           
-
-            Console.WriteLine("After delete");
-
 
             return Task.CompletedTask;
         }
