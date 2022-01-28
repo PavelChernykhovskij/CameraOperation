@@ -29,11 +29,11 @@ namespace CameraOperation.Services
             {
                 Console.WriteLine("\nCreate");
 
-                RuleOfSearchByNumber ruleOfSearchByNumber1 = new RuleOfSearchByNumber { User = db.Users.FirstOrDefault(), DateOfCreate = DateTime.Today, Number = "231" };
-                RuleOfSearchByNumber ruleOfSearchByNumber2 = new RuleOfSearchByNumber { User = db.Users.FirstOrDefault(), DateOfCreate = DateTime.Today, Number = "2222" };
+                RuleOfSearchByNumber ruleOfSearchByNumber1 = new RuleOfSearchByNumber { User = db.Users.FirstOrDefault(), DateOfCreate = DateTime.Now, Number = "231" };
+                RuleOfSearchByNumber ruleOfSearchByNumber2 = new RuleOfSearchByNumber { User = db.Users.FirstOrDefault(), DateOfCreate = DateTime.Now, Number = "2222" };
 
-                RuleOfSearchBySpeed ruleOfSearchBySpeed1 = new RuleOfSearchBySpeed { User = db.Users.FirstOrDefault(), DateOfCreate = DateTime.Today, Speed = 123 };
-                RuleOfSearchBySpeed ruleOfSearchBySpeed2 = new RuleOfSearchBySpeed { User = db.Users.FirstOrDefault(), DateOfCreate = DateTime.Today, Speed = 90 };
+                RuleOfSearchBySpeed ruleOfSearchBySpeed1 = new RuleOfSearchBySpeed { User = db.Users.FirstOrDefault(), DateOfCreate = DateTime.Now, Speed = 123 };
+                RuleOfSearchBySpeed ruleOfSearchBySpeed2 = new RuleOfSearchBySpeed { User = db.Users.FirstOrDefault(), DateOfCreate = DateTime.Now, Speed = 90 };
 
                 Fixation fixation1 = new Fixation { FixationDate = DateTime.Now, CarNumber = "231", CarSpeed = 123 };
                 Fixation fixation2 = new Fixation { FixationDate = DateTime.Now, CarNumber = "2222", CarSpeed = 133 };
