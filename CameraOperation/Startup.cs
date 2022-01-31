@@ -1,4 +1,5 @@
 ﻿using CameraOperation.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace CameraOperation
 {
@@ -11,7 +12,6 @@ namespace CameraOperation
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile(".json", true, true)
-                .AddJsonFile($"appsettiappsettingsngs.{env.EnvironmentName}.json", true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
@@ -22,6 +22,15 @@ namespace CameraOperation
             services.AddMvc();
             services.AddOptions();
             services.AddControllers();
+
+            // context
+            //services.AddDbContext<CameraOperationContext>(
+            //    options => options.UseSqlServer(connectionString),
+            //    contextLifetime: ServiceLifetime.Scoped,
+            //    optionsLifetime: ServiceLifetime.Transient);
+
+            //services.AddTransient<IRepository<User>, UserRepository>();
+
             services.AddHostedService<TestRepos>();
         }
 

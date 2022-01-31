@@ -1,6 +1,4 @@
 using CameraOperation;
-using CameraOperation.Models;
-using Microsoft.EntityFrameworkCore;
 
 try
 {

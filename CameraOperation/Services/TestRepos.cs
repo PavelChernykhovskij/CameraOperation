@@ -1,11 +1,33 @@
 ﻿using CameraOperation.Models;
 using CameraOperation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace CameraOperation.Services
 {
     public class TestRepos : IHostedService
     {
+
+        //public ContextFactory(DbContextOptions<CameraOperationContext> options)
+        //{
+        //    using var context = new CameraOperationContext(options);
+        //}
+
+        // Реализации IRepository
+        //public RepositoryImplementation(IContextFactory factory)
+        //{
+        //    _factory = factory;
+        //    using var context = _factory.Create();
+        //    // Do some actions with context
+        //}
+
+
+        //private readonly IRepository<User> _userRepo;
+        //public TestRepos(IRepository<User> userRepo, IRepository<Fication> fixationRepo, ...)
+        //{
+        //  _userRepo = userRepo;
+        //}
+
         public Task StartAsync(CancellationToken stoppingToken)
         {
             Console.WriteLine("Timed Hosted Service running.");
@@ -52,6 +74,7 @@ namespace CameraOperation.Services
                 db.TriggeringByNumbers.AddRange(triggeringByNumber1, triggeringByNumber2);
                 db.TriggeringBySpeeds.AddRange(triggeringBySpeed1, triggeringBySpeed2);
                 db.SaveChanges();
+
                 Console.WriteLine("Объекты успешно сохранены\n");
 
                 Console.WriteLine("Read\n");
