@@ -1,5 +1,8 @@
-﻿using CameraOperation.Services;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using CameraOperation.Services;
+using CameraOperation.Models;
+using CameraOperation.EntityFramework.Repositories;
+using CameraOperation.EntityFramework;
 
 namespace CameraOperation
 {
@@ -22,16 +25,31 @@ namespace CameraOperation
             services.AddMvc();
             services.AddOptions();
             services.AddControllers();
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-            // context
-            //services.AddDbContext<CameraOperationContext>(
-            //    options => options.UseSqlServer(connectionString),
-            //    contextLifetime: ServiceLifetime.Scoped,
-            //    optionsLifetime: ServiceLifetime.Transient);
+            //context
+            services.AddDbContext<CameraOperationContext>(
+                options => options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=helloappdb;Trusted_Connection=True;"),
+                contextLifetime: ServiceLifetime.Scoped,
+                optionsLifetime: ServiceLifetime.Transient);
 
-            //services.AddTransient<IRepository<User>, UserRepository>();
+
+
+            //services.AddDbContextFactory<CameraOperationContext>(builder => builder
+            //    .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddTransient<ICameraOperationContextFactory, CameraOperationContextFactory>();
+            services.AddTransient<IUserRepository<User>, UserRepository>();
+            services.AddTransient<IFixationRepository<Fixation>, FixationRepository>();
+            services.AddTransient<IRuleOfSearchByNumberRepository<RuleOfSearchByNumber>, RuleOfSearchByNumberRepository>();
+            services.AddTransient<IRuleOfSearchBySpeedRepository<RuleOfSearchBySpeed>, RuleOfSearchBySpeedRepository>();
+            services.AddTransient<ITriggeringByNumberRepository<TriggeringByNumber>, TriggeringByNumberRepository>();
+            services.AddTransient<ITriggeringBySpeedRepository<TriggeringBySpeed>, TriggeringBySpeedRepository>();
 
             services.AddHostedService<TestRepos>();
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

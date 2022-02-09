@@ -8,11 +8,11 @@ namespace CameraOperation
     public class CameraOperationContext : DbContext
     {
         public DbSet<User> Users => Set<User>();
-        public DbSet<Fixation> Fixations { get; set; }
-        public DbSet<RuleOfSearchByNumber> RulesOfSearchByNumber { get; set; }
-        public DbSet<RuleOfSearchBySpeed> RulesOfSearchBySpeed { get; set; }
-        public DbSet<TriggeringByNumber> TriggeringByNumbers { get; set; }
-        public DbSet<TriggeringBySpeed> TriggeringBySpeeds { get; set; }
+        public DbSet<Fixation> Fixations => Set<Fixation>();
+        public DbSet<RuleOfSearchByNumber> RulesOfSearchByNumber => Set<RuleOfSearchByNumber>();
+        public DbSet<RuleOfSearchBySpeed> RulesOfSearchBySpeed => Set<RuleOfSearchBySpeed>();
+        public DbSet<TriggeringByNumber> TriggeringByNumbers => Set<TriggeringByNumber>();
+        public DbSet<TriggeringBySpeed> TriggeringBySpeeds => Set<TriggeringBySpeed>();
 
         public CameraOperationContext(DbContextOptions<CameraOperationContext> options)
             : base(options)
@@ -29,7 +29,6 @@ namespace CameraOperation
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Ignore<RuleOfSearch>();
             modelBuilder.ApplyConfiguration(new FixationConfiguration());
             modelBuilder.ApplyConfiguration(new RuleOfSearchByNumberConfiguration());
             modelBuilder.ApplyConfiguration(new RuleOfSearchBySpeedConfiguration());

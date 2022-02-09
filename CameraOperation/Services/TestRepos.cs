@@ -2,6 +2,8 @@
 using CameraOperation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using CameraOperation.EntityFramework.Repositories;
+using CameraOperation.EntityFramework;
 
 namespace CameraOperation.Services
 {
@@ -22,31 +24,47 @@ namespace CameraOperation.Services
         //}
 
 
-        //private readonly IRepository<User> _userRepo;
-        //public TestRepos(IRepository<User> userRepo, IRepository<Fication> fixationRepo, ...)
-        //{
-        //  _userRepo = userRepo;
-        //}
+        private readonly IUserRepository<User> _userRepo;
+        private readonly IFixationRepository<Fixation> _fixationRepo;
+        private readonly IRuleOfSearchByNumberRepository<RuleOfSearchByNumber> _ruleOfSearchByNumberRepo;
+        private readonly IRuleOfSearchBySpeedRepository<RuleOfSearchBySpeed> _ruleOfSearchBySpeedRepo;
+        private readonly ITriggeringByNumberRepository<TriggeringByNumber> _triggeringByNumberRepo;
+        private readonly ITriggeringBySpeedRepository<TriggeringBySpeed> _triggeringBySpeedRepo;
+        public TestRepos(IUserRepository<User> userRepo, 
+            IFixationRepository<Fixation> fixationRepo,
+            IRuleOfSearchByNumberRepository<RuleOfSearchByNumber> ruleOfSearchByNumberRepo, 
+            IRuleOfSearchBySpeedRepository<RuleOfSearchBySpeed> ruleOfSearchBySpeedRepo,
+            ITriggeringByNumberRepository<TriggeringByNumber> triggeringByNumberRepo,
+            ITriggeringBySpeedRepository<TriggeringBySpeed> triggeringBySpeedRepo)
+        {
+            _userRepo = userRepo;
+            _fixationRepo = fixationRepo;
+            _ruleOfSearchByNumberRepo = ruleOfSearchByNumberRepo;
+            _ruleOfSearchBySpeedRepo = ruleOfSearchBySpeedRepo;
+            _triggeringByNumberRepo = triggeringByNumberRepo;
+            _triggeringByNumberRepo = triggeringByNumberRepo;
+        }
 
         public Task StartAsync(CancellationToken stoppingToken)
         {
             Console.WriteLine("Timed Hosted Service running.");
-            //получаем строку подключения
-            var builder = new ConfigurationBuilder();
-            // установка пути к текущему каталогу
-            builder.SetBasePath(Directory.GetCurrentDirectory());
-            // получаем конфигурацию из файла appsettings.json
-            builder.AddJsonFile("appsettings.json");
-            // создаем конфигурацию
-            var config = builder.Build();
-            // получаем строку подключения
-            string connectionString = config.GetConnectionString("DefaultConnection");
 
-            var optionsBuilder = new DbContextOptionsBuilder<CameraOperationContext>();
-            var options = optionsBuilder
-                .UseSqlServer(connectionString)
-                .Options;
+            
+            TestRepos testRepos = new TestRepos(_userRepo, _fixationRepo, _ruleOfSearchByNumberRepo, _ruleOfSearchBySpeedRepo, _triggeringByNumberRepo, _triggeringBySpeedRepo);
+            Fixation fixation1 = new Fixation { FixationDate = DateTime.Now, CarNumber = "231", CarSpeed = 123 };
 
+            //Console.WriteLine(testRepos._fixationRepo.Create(fixation1));
+            foreach(User f in testRepos._userRepo.Read())
+            {
+                Console.WriteLine(f);
+            }
+
+
+            Console.WriteLine();
+
+
+
+            /*
             using (CameraOperationContext db = new(options))
             {
                 Console.WriteLine("\nCreate");
@@ -81,11 +99,11 @@ namespace CameraOperation.Services
                 Console.WriteLine("Пользователи:");
 
                 var users = db.Users.Include(rbn => rbn.RulesOfSearchByNumber).Include(rbs => rbs.RulesOfSearchBySpeed).ToList();
-               
+
                 foreach (User u in users)
                 {
 
-                    Console.WriteLine($" Логин: {u.Login}\n Пароль: {u.Password}\n ФИО: {u.Name}\n Список правил: " );
+                    Console.WriteLine($" Логин: {u.Login}\n Пароль: {u.Password}\n ФИО: {u.Name}\n Список правил: ");
 
                     Console.WriteLine("  По номеру: ");
                     foreach (RuleOfSearchByNumber rb in u.RulesOfSearchByNumber)
@@ -97,14 +115,14 @@ namespace CameraOperation.Services
                     {
                         Console.WriteLine($"   Правило для скорости { rb.Speed } ");
                     }
-                    
+
                 }
 
                 Console.WriteLine("\nПравила розыска:");
 
                 var rbs = db.RulesOfSearchBySpeed.ToList();
                 var rbn = db.RulesOfSearchByNumber.ToList();
-                
+
                 Console.WriteLine(" По номеру: ");
 
                 Console.WriteLine("  Все правила: ");
@@ -118,7 +136,7 @@ namespace CameraOperation.Services
                 foreach (RuleOfSearchByNumber rb in rbn)
                 {
                     if (indexOfRuleByNumber.Equals(rb.Number)) { Console.WriteLine($"\nПользователь: {rb.User.Name} Дата создания: {rb.DateOfCreate} Правило для номера: { rb.Number} \n"); }
-                   
+
                 }
 
                 Console.WriteLine(" По скорости: ");
@@ -155,7 +173,7 @@ namespace CameraOperation.Services
                 }
 
                 Console.WriteLine("\nФиксациии:");
-                
+
                 var fix = db.Fixations.ToList();
                 foreach (Fixation f in fix)
                 {
@@ -219,6 +237,7 @@ namespace CameraOperation.Services
                 }
 
             }
+            */
 
             return Task.CompletedTask;
         }

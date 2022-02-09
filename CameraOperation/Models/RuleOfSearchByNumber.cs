@@ -9,7 +9,5 @@
 
         public List<TriggeringByNumber> TriggeringsByNumber { get; set; }
 
-        
-
     }
 }
