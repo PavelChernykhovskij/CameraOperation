@@ -19,10 +19,10 @@ namespace CameraOperation.EntityFramework.Repositories
             return true;
         }
 
-        public bool Delete(RuleOfSearchByNumber data)
+        public bool Delete(int id)
         {
             using var context = _factory.Create();
-            RuleOfSearchByNumber ruleOfSearchByNumber = context.RulesOfSearchByNumber.Find(data);
+            RuleOfSearchByNumber ruleOfSearchByNumber = context.RulesOfSearchByNumber.Find(id);
             context.RulesOfSearchByNumber.Remove(ruleOfSearchByNumber);
             context.SaveChanges();
             return true;

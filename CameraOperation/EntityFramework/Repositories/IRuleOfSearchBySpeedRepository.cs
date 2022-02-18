@@ -6,6 +6,6 @@
         T ReadOne();
         IEnumerable<T> ReadAll();
         bool Update(T data);
-        bool Delete(T data);
+        bool Delete(int id);
     }
 }

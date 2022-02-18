@@ -33,11 +33,6 @@ namespace CameraOperation
                 contextLifetime: ServiceLifetime.Scoped,
                 optionsLifetime: ServiceLifetime.Transient);
 
-
-
-            //services.AddDbContextFactory<CameraOperationContext>(builder => builder
-            //    .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
             services.AddTransient<ICameraOperationContextFactory, CameraOperationContextFactory>();
             services.AddTransient<IUserRepository<User>, UserRepository>();
             services.AddTransient<IFixationRepository<Fixation>, FixationRepository>();
@@ -47,9 +42,6 @@ namespace CameraOperation
             services.AddTransient<ITriggeringBySpeedRepository<TriggeringBySpeed>, TriggeringBySpeedRepository>();
 
             services.AddHostedService<TestRepos>();
-
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

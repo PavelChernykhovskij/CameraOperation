@@ -20,10 +20,10 @@ namespace CameraOperation.EntityFramework.Repositories
             return true;
         }
 
-        public bool Delete(RuleOfSearchBySpeed data)
+        public bool Delete(int id)
         {
             using var context = _factory.Create();
-            RuleOfSearchBySpeed ruleOfSearchBySpeed = context.RulesOfSearchBySpeed.Find(data);
+            RuleOfSearchBySpeed ruleOfSearchBySpeed = context.RulesOfSearchBySpeed.Find(id);
             context.RulesOfSearchBySpeed.Remove(ruleOfSearchBySpeed);
             context.SaveChanges();
             return true;

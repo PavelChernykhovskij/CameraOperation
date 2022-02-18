@@ -9,7 +9,6 @@ namespace CameraOperation.Configurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
 
-            builder.HasData(new User { Id = 1, Name = "LeonardoDicaprio", Login = "Boy", Password = "123"});
             builder.HasMany(u => u.RulesOfSearchByNumber)
                    .WithOne(r => r.User)
                    .HasForeignKey(t => t.UserKey);
