@@ -2,7 +2,7 @@
 
 namespace CameraOperation.EntityFramework.Repositories
 {
-    public class FixationRepository : IFixationRepository<Fixation>
+    public class FixationRepository : IRepository<Fixation>
     {
         private readonly ICameraOperationContextFactory _factory;
         public FixationRepository(ICameraOperationContextFactory factory)

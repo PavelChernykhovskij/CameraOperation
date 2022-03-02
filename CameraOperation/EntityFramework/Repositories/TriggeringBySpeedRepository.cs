@@ -1,7 +1,7 @@
 ﻿using CameraOperation.Models;
 namespace CameraOperation.EntityFramework.Repositories
 {
-    public class TriggeringBySpeedRepository : ITriggeringBySpeedRepository<TriggeringBySpeed>
+    public class TriggeringBySpeedRepository : IRepository<TriggeringBySpeed>
     {
 
         private readonly ICameraOperationContextFactory _factory;

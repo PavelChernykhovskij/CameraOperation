@@ -1,7 +1,7 @@
 ﻿using CameraOperation.Models;
 namespace CameraOperation.EntityFramework.Repositories
 {
-    public class TriggeringByNumberRepository : ITriggeringByNumberRepository<TriggeringByNumber>
+    public class TriggeringByNumberRepository : IRepository<TriggeringByNumber>
     {
 
         private readonly ICameraOperationContextFactory _factory;

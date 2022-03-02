@@ -29,17 +29,17 @@ namespace CameraOperation
 
             //context
             services.AddDbContext<CameraOperationContext>(
-                options => options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=helloappdb;Trusted_Connection=True;"),
+                options => options.UseSqlServer(connectionString),
                 contextLifetime: ServiceLifetime.Scoped,
                 optionsLifetime: ServiceLifetime.Transient);
 
             services.AddTransient<ICameraOperationContextFactory, CameraOperationContextFactory>();
-            services.AddTransient<IUserRepository<User>, UserRepository>();
-            services.AddTransient<IFixationRepository<Fixation>, FixationRepository>();
-            services.AddTransient<IRuleOfSearchByNumberRepository<RuleOfSearchByNumber>, RuleOfSearchByNumberRepository>();
-            services.AddTransient<IRuleOfSearchBySpeedRepository<RuleOfSearchBySpeed>, RuleOfSearchBySpeedRepository>();
-            services.AddTransient<ITriggeringByNumberRepository<TriggeringByNumber>, TriggeringByNumberRepository>();
-            services.AddTransient<ITriggeringBySpeedRepository<TriggeringBySpeed>, TriggeringBySpeedRepository>();
+            services.AddTransient<IRepository<User>, UserRepository>();
+            services.AddTransient<IRepository<Fixation>, FixationRepository>();
+            services.AddTransient<IRuleOfSearchRepository<RuleOfSearchByNumber>, RuleOfSearchByNumberRepository>();
+            services.AddTransient<IRuleOfSearchRepository<RuleOfSearchBySpeed>, RuleOfSearchBySpeedRepository>();
+            services.AddTransient<IRepository<TriggeringByNumber>, TriggeringByNumberRepository>();
+            services.AddTransient<IRepository<TriggeringBySpeed>, TriggeringBySpeedRepository>();
 
             services.AddHostedService<TestRepos>();
         }
@@ -50,5 +50,8 @@ namespace CameraOperation
             app.UseRouting();
             app.UseEndpoints(conf => conf.MapControllers());
         }
+
+
     }
+
 }

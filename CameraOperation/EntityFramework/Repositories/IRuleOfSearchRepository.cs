@@ -1,6 +1,6 @@
 ﻿namespace CameraOperation.EntityFramework.Repositories
 {
-    public interface IRuleOfSearchByNumberRepository<T>
+    public interface IRuleOfSearchRepository<T>
     {
         bool Create(T data);
         T ReadOne();

@@ -1,6 +1,6 @@
 ﻿namespace CameraOperation.EntityFramework.Repositories
 {
-    public interface ITriggeringByNumberRepository<T>
+    public interface IRepository<T>
     {
         bool Create(T data);
         IEnumerable<T> Read();

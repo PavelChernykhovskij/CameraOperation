@@ -2,7 +2,7 @@
 
 namespace CameraOperation.EntityFramework.Repositories
 {
-    public class UserRepository : IUserRepository<User>
+    public class UserRepository : IRepository<User>
     {
         private readonly ICameraOperationContextFactory _factory;
         public UserRepository(ICameraOperationContextFactory factory)

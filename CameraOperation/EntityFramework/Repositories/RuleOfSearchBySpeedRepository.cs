@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CameraOperation.EntityFramework.Repositories
 {
-    public class RuleOfSearchBySpeedRepository : IRuleOfSearchBySpeedRepository<RuleOfSearchBySpeed>
+    public class RuleOfSearchBySpeedRepository : IRuleOfSearchRepository<RuleOfSearchBySpeed>
     {
         private readonly ICameraOperationContextFactory _factory;
         public RuleOfSearchBySpeedRepository(ICameraOperationContextFactory factory)
