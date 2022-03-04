@@ -18,6 +18,7 @@ namespace CameraOperation
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+            
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -26,6 +27,7 @@ namespace CameraOperation
             services.AddOptions();
             services.AddControllers();
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //string connectionString = Configuration.GetSection("ConnectionStrings:DefaultConnection").Value;
 
             //context
             services.AddDbContext<CameraOperationContext>(

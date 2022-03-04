@@ -1,7 +1,6 @@
 using CameraOperation.EntityFramework;
 using CameraOperation;
 
-
 try
 {
     using var host = CreateHostBuilder(args).Build().EnsureDatabaseCreated();
