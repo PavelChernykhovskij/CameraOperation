@@ -27,8 +27,6 @@ namespace CameraOperation
             services.AddOptions();
             services.AddControllers();
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
-            //string connectionString = Configuration.GetSection("ConnectionStrings:DefaultConnection").Value;
-
             //context
             services.AddDbContext<CameraOperationContext>(
                 options => options.UseSqlServer(connectionString),
