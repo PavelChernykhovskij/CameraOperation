@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using CameraOperation.Services;
 using CameraOperation.Models;
+using CameraOperation.AutoMapping.DtoModels;
 using CameraOperation.EntityFramework.Repositories;
 using CameraOperation.EntityFramework;
 
@@ -20,12 +21,18 @@ namespace CameraOperation
             Configuration = builder.Build();
             
         }
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
             services.AddOptions();
             services.AddControllers();
+            services.AddSwaggerGen();
+
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.AddProfile<AutoMappingProfile>();
+            });
+
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
             //context
             services.AddDbContext<CameraOperationContext>(
@@ -42,6 +49,8 @@ namespace CameraOperation
             services.AddTransient<IRepository<TriggeringBySpeed>, TriggeringBySpeedRepository>();
 
             services.AddHostedService<TestRepos>();
+            services.AddScoped<IConcreteViolationDetector, ViolationDetector>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +58,9 @@ namespace CameraOperation
         {
             app.UseRouting();
             app.UseEndpoints(conf => conf.MapControllers());
+
+            app.UseSwagger();
+            app.UseSwaggerUI();
         }
 
 

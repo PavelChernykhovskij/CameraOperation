@@ -1,4 +1,5 @@
 ﻿using CameraOperation.Models;
+using Microsoft.EntityFrameworkCore;
 namespace CameraOperation.EntityFramework.Repositories
 {
     public class TriggeringBySpeedRepository : IRepository<TriggeringBySpeed>
@@ -22,7 +23,8 @@ namespace CameraOperation.EntityFramework.Repositories
         public IEnumerable<TriggeringBySpeed> Read()
         {
             using var context = _factory.Create();
-            return context.TriggeringBySpeeds.ToList();
+            var triggers = context.TriggeringBySpeeds.Include(r => r.RuleOfSearchBySpeed).ToList();
+            return triggers;
         }
 
         public bool Update(TriggeringBySpeed data)

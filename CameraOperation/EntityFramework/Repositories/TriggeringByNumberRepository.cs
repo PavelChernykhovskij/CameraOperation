@@ -1,4 +1,5 @@
 ﻿using CameraOperation.Models;
+using Microsoft.EntityFrameworkCore;
 namespace CameraOperation.EntityFramework.Repositories
 {
     public class TriggeringByNumberRepository : IRepository<TriggeringByNumber>
@@ -22,7 +23,8 @@ namespace CameraOperation.EntityFramework.Repositories
         public IEnumerable<TriggeringByNumber> Read()
         {
             using var context = _factory.Create();
-            return context.TriggeringByNumbers.ToList();
+            var triggers = context.TriggeringByNumbers.Include(r => r.RuleOfSearchByNumber).ToList();
+            return triggers;
         }
 
         public bool Update(TriggeringByNumber data)

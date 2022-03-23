@@ -1,0 +1,68 @@
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using CameraOperation.Models;
+using CameraOperation.AutoMapping.DtoModels;
+using CameraOperation.EntityFramework.Repositories;
+using CameraOperation.Services;
+
+namespace CameraOperation.Controllers
+{
+    [Route("api/[controller]/[action]")]
+    [ApiController]
+    public class RuleOfSearchBySpeedController : Controller
+    {
+        private readonly IMapper _mapper;
+        private readonly IRuleOfSearchRepository<RuleOfSearchBySpeed> _ruleOfSearchBySpeedRepo;
+
+        public RuleOfSearchBySpeedController(IMapper mapper, IRuleOfSearchRepository<RuleOfSearchBySpeed> ruleOfSearchBySpeedRepo)
+        {
+            _mapper = mapper;
+            _ruleOfSearchBySpeedRepo = ruleOfSearchBySpeedRepo;
+        }
+
+        [HttpGet]
+        public ActionResult GetAll()
+        {
+            var rules = _ruleOfSearchBySpeedRepo.ReadAll();
+            List<RuleOfSearchBySpeedDto> dtos = new();
+            foreach (RuleOfSearchBySpeed rule in rules)
+            {
+                dtos.Add(_mapper.Map<RuleOfSearchBySpeedDto>(rule));
+            }
+            return Json(dtos);
+        }
+
+        [HttpGet]
+        public ActionResult GetOne()
+        {
+            var rule = _ruleOfSearchBySpeedRepo.ReadOne();
+            var ruleDto = _mapper.Map<RuleOfSearchBySpeedDto>(rule);
+            return Json(ruleDto);
+        }
+
+        [HttpPost]
+        public ActionResult Create(RuleOfSearchBySpeedDto model)
+        {
+            var rule = _mapper.Map<RuleOfSearchBySpeed>(model);
+            _ruleOfSearchBySpeedRepo.Create(rule);
+            return Json(model);
+        }
+
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            _ruleOfSearchBySpeedRepo.Delete(id);
+            return Json(id);
+        }
+
+        [HttpPost]
+        public ActionResult Update(RuleOfSearchBySpeed data)
+        {
+            var rule = _mapper.Map<RuleOfSearchBySpeedDto>(data);
+            _ruleOfSearchBySpeedRepo.Update(data);
+            return Json(rule);
+        }
+
+    }
+}
+

@@ -16,6 +16,7 @@ namespace CameraOperation.Configurations
                    .WithOne(r => r.User)
                    .HasForeignKey(t => t.UserKey);
 
+            builder.HasKey(u => u.Id);
             builder.Property(u => u.Login).IsRequired().HasMaxLength(20);
             builder.Property(u => u.Name).IsRequired().HasMaxLength(40);
             builder.Property(u => u.Password).IsRequired().HasMaxLength(20);

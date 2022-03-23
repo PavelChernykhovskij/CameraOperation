@@ -7,7 +7,6 @@
         public DateTime FixationDate { get; set; }
         public string CarNumber { get; set; }
 
-        public int FixationKey { get; set; }
         public Fixation Fixation { get; set; }
 
         public int RuleOfSearchByNumberId { get; set; }
