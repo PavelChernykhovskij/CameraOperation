@@ -1,11 +1,10 @@
-﻿using CameraOperation.Models;
-namespace CameraOperation
+﻿using CamerOperationClassLibrary.Models;
+namespace CamerOperationClassLibrary
 {
     public static class HostExtension
     {
         public static IHost EnsureDatabaseCreated(this IHost host)
         {
-
             using (var serviceScope = host.Services.CreateScope())
             {
                 var services = serviceScope.ServiceProvider;
@@ -14,7 +13,6 @@ namespace CameraOperation
                 {
                     User user1 = new() { Name = "LeonardoDicaprio", Login = "Boy", Password = "123" };
                     User user2 = new() { Name = "DmitriyPuchkov", Login = "Old", Password = "123" };
-
 
                     RuleOfSearchByNumber ruleOfSearchByNumber1 = new() { User = user1, DateOfCreate = DateTime.Now, Number = "231" };
                     RuleOfSearchByNumber ruleOfSearchByNumber2 = new() { User = user2, DateOfCreate = DateTime.Now, Number = "2222" };

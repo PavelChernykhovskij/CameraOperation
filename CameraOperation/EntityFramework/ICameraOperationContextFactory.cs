@@ -1,4 +1,4 @@
-﻿namespace CameraOperation.EntityFramework
+﻿namespace CamerOperationClassLibrary.EntityFramework
 {
     public interface ICameraOperationContextFactory
     {

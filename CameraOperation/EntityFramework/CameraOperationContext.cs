@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using CameraOperation.Models;
-using CameraOperation.Configurations;
+using CamerOperationClassLibrary.Models;
+using CamerOperationClassLibrary.Configurations;
 
-namespace CameraOperation
+namespace CamerOperationClassLibrary
 {
 
     public class CameraOperationContext : DbContext

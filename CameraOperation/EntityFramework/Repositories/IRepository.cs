@@ -1,4 +1,6 @@
-﻿namespace CameraOperation.EntityFramework.Repositories
+﻿using CamerOperationClassLibrary.Models;
+
+namespace CamerOperationClassLibrary.EntityFramework.Repositories
 {
     public interface IRepository<T>
     {

@@ -1,6 +1,6 @@
-﻿using CameraOperation.Models;
+﻿using CamerOperationClassLibrary.Models;
 
-namespace CameraOperation.EntityFramework.Repositories
+namespace CamerOperationClassLibrary.EntityFramework.Repositories
 {
     public interface IRuleOfSearchRepository<T>
     {
@@ -9,6 +9,5 @@ namespace CameraOperation.EntityFramework.Repositories
         IEnumerable<T> ReadAll();
         bool Update(T data);
         bool Delete(int id);
-        void Detect(Fixation fixation);
     }
 }

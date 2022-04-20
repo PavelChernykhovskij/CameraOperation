@@ -1,5 +1,5 @@
-using CameraOperation.EntityFramework;
-using CameraOperation;
+using CamerOperationClassLibrary.EntityFramework;
+using CamerOperationClassLibrary;
 
 try
 {

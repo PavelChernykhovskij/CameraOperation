@@ -1,6 +1,6 @@
-﻿using CameraOperation.Models;
+﻿using CamerOperationClassLibrary.Models;
 
-namespace CameraOperation.AutoMapping.DtoModels
+namespace CamerOperationClassLibrary.AutoMapping.DtoModels
 {
     public class RuleOfSearchByNumberDto
     {

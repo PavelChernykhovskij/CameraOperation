@@ -1,7 +1,7 @@
-﻿using CameraOperation.Configurations;
+﻿using CamerOperationClassLibrary.Configurations;
 using Microsoft.EntityFrameworkCore;
 
-namespace CameraOperation.Models
+namespace CamerOperationClassLibrary.Models
 {
     public class Fixation
     {

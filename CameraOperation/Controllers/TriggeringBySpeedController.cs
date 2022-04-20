@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using CameraOperation.Models;
-using CameraOperation.AutoMapping.DtoModels;
-using CameraOperation.EntityFramework.Repositories;
-using CameraOperation.Services;
+using CamerOperationClassLibrary.Models;
+using CamerOperationClassLibrary.AutoMapping.DtoModels;
+using CamerOperationClassLibrary.EntityFramework.Repositories;
+using CamerOperationClassLibrary.Services;
 
-namespace CameraOperation.Controllers
+namespace CamerOperationClassLibrary.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]

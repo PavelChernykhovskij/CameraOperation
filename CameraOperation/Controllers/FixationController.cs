@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using CameraOperation.Models;
-using CameraOperation.AutoMapping.DtoModels;
-using CameraOperation.EntityFramework.Repositories;
-using CameraOperation.Services;
+using CamerOperationClassLibrary.Models;
+using CamerOperationClassLibrary.AutoMapping.DtoModels;
+using CamerOperationClassLibrary.EntityFramework.Repositories;
+using CamerOperationClassLibrary.Services;
 
-namespace CameraOperation.Controllers
+namespace CamerOperationClassLibrary.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
@@ -14,9 +14,9 @@ namespace CameraOperation.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IRepository<Fixation> _fixation;
-        private readonly IConcreteViolationDetector _violationDetector;
+        private readonly IEnumerable<IViolationDetector> _violationDetector;
 
-        public FixationController(IMapper mapper, IConcreteViolationDetector violationDetector,
+        public FixationController(IMapper mapper, IEnumerable<IViolationDetector> violationDetector,
             IRepository<Fixation> fixationRepo)
         {
             _mapper = mapper;
@@ -28,8 +28,12 @@ namespace CameraOperation.Controllers
         public ActionResult Detect(FixationDto model)
         {
             var fixation = _mapper.Map<Fixation>(model);
-            _violationDetector.ViolationDetect(fixation);
-            return Json(model);
+            _fixation.Create(fixation);
+            foreach (var violationDetector in _violationDetector)
+            {
+                violationDetector.ViolationDetect(fixation);
+            }
+            return Json("Ok");
         }
 
         [HttpPost]

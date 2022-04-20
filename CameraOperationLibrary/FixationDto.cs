@@ -1,4 +1,4 @@
-﻿namespace RequestSender
+﻿namespace CamerOperationClassLibrary
 {
     public class FixationDto
     {

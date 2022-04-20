@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using CameraOperation.Services;
-using CameraOperation.Models;
-using CameraOperation.AutoMapping.DtoModels;
-using CameraOperation.EntityFramework.Repositories;
-using CameraOperation.EntityFramework;
+using CamerOperationClassLibrary.Services;
+using CamerOperationClassLibrary.Models;
+using CamerOperationClassLibrary.AutoMapping.DtoModels;
+using CamerOperationClassLibrary.EntityFramework.Repositories;
+using CamerOperationClassLibrary.EntityFramework;
 
-namespace CameraOperation
+
+namespace CamerOperationClassLibrary
 {
     public class Startup
     {
@@ -49,7 +50,8 @@ namespace CameraOperation
             services.AddTransient<IRepository<TriggeringBySpeed>, TriggeringBySpeedRepository>();
 
             services.AddHostedService<TestRepos>();
-            services.AddScoped<IConcreteViolationDetector, ViolationDetector>();
+            services.AddTransient<IViolationDetector, ViolationByNumberDetector>();
+            services.AddTransient<IViolationDetector, ViolationBySpeedDetector>();
 
         }
 

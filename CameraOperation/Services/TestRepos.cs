@@ -1,7 +1,7 @@
-﻿using CameraOperation.Models;
-using CameraOperation.EntityFramework.Repositories;
+﻿using CamerOperationClassLibrary.Models;
+using CamerOperationClassLibrary.EntityFramework.Repositories;
 
-namespace CameraOperation.Services
+namespace CamerOperationClassLibrary.Services
 {
     public class TestRepos : IHostedService
     {

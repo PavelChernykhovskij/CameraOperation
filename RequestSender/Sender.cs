@@ -2,7 +2,7 @@
 using System.Text;
 using Newtonsoft.Json;
 
-namespace RequestSender
+namespace CamerOperationClassLibrary
 {
     internal class Sender : IHostedService
     {
@@ -35,7 +35,6 @@ namespace RequestSender
         }
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            //New Timer does not have a stop. 
             _timer?.Change(Timeout.Infinite, 0);
             return Task.CompletedTask;
         }

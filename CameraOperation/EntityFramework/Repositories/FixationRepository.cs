@@ -1,13 +1,14 @@
-﻿using CameraOperation.Models; 
+﻿using CamerOperationClassLibrary.Models;
+using CamerOperationClassLibrary.Services;
 
-namespace CameraOperation.EntityFramework.Repositories
+namespace CamerOperationClassLibrary.EntityFramework.Repositories
 {
     public class FixationRepository : IRepository<Fixation>
     {
         private readonly ICameraOperationContextFactory _factory;
         public FixationRepository(ICameraOperationContextFactory factory)
         {
-            _factory = factory;    
+            _factory = factory;
         }
 
         public bool Create(Fixation data)

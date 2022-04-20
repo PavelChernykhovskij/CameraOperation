@@ -1,6 +1,7 @@
-﻿using CameraOperation.Models;
+﻿using CamerOperationClassLibrary.Models;
 using Microsoft.EntityFrameworkCore;
-namespace CameraOperation.EntityFramework.Repositories
+
+namespace CamerOperationClassLibrary.EntityFramework.Repositories
 {
     public class TriggeringByNumberRepository : IRepository<TriggeringByNumber>
     {
@@ -12,7 +13,12 @@ namespace CameraOperation.EntityFramework.Repositories
         }
         public bool Create(TriggeringByNumber data)
         {
-            throw new NotImplementedException();
+            using var context = _factory.Create();
+            {
+                context.TriggeringByNumbers.Add(data);
+                context.SaveChanges();
+            }
+            return true;
         }
 
         public bool Delete(TriggeringByNumber data)

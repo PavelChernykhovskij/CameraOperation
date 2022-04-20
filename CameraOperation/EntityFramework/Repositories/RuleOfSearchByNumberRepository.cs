@@ -1,7 +1,7 @@
-﻿using CameraOperation.Models;
+﻿using CamerOperationClassLibrary.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CameraOperation.EntityFramework.Repositories
+namespace CamerOperationClassLibrary.EntityFramework.Repositories
 {
     public class RuleOfSearchByNumberRepository : IRuleOfSearchRepository<RuleOfSearchByNumber>
     {
@@ -49,26 +49,26 @@ namespace CameraOperation.EntityFramework.Repositories
             return true;
         }
 
-        public void Detect(Fixation fixation)
-        {
-            using var context = _factory.Create();
-            IEnumerable<RuleOfSearchByNumber> violations = context.RulesOfSearchByNumber.ToList();
-            if (fixation != null)
-            {
-                foreach (RuleOfSearchByNumber violation in violations)
-                {
-                    if (violation.Number == fixation.CarNumber)
-                    {
-                        context.Fixations.Add(fixation);
-                        context.SaveChanges();
-                        Fixation fixation1 = context.Fixations.FirstOrDefault(f => f.Id == fixation.Id);
-                        RuleOfSearchByNumber ruleOfSearchByNumber = context.RulesOfSearchByNumber.FirstOrDefault(rn => rn.Id == violation.Id);
-                        TriggeringByNumber triggeringByNumber = new TriggeringByNumber() { CarNumber = fixation.CarNumber, FixationDate = fixation.FixationDate, Fixation = fixation1, RuleOfSearchByNumber = ruleOfSearchByNumber };
-                        context.TriggeringByNumbers.Add(triggeringByNumber);
-                    }
-                }
-            }
-            context.SaveChanges();
-        }
+        //public void Detect(Fixation fixation)
+        //{
+        //    using var context = _factory.Create();
+        //    IEnumerable<RuleOfSearchByNumber> violations = context.RulesOfSearchByNumber.ToList();
+        //    if (fixation != null)
+        //    {
+        //        foreach (RuleOfSearchByNumber violation in violations)
+        //        {
+        //            if (violation.Number == fixation.CarNumber)
+        //            {
+        //                context.Fixations.Add(fixation);
+        //                context.SaveChanges();
+        //                Fixation fixation1 = context.Fixations.FirstOrDefault(f => f.Id == fixation.Id);
+        //                RuleOfSearchByNumber ruleOfSearchByNumber = context.RulesOfSearchByNumber.FirstOrDefault(rn => rn.Id == violation.Id);
+        //                TriggeringByNumber triggeringByNumber = new TriggeringByNumber() { CarNumber = fixation.CarNumber, FixationDate = fixation.FixationDate, Fixation = fixation1, RuleOfSearchByNumber = ruleOfSearchByNumber };
+        //                context.TriggeringByNumbers.Add(triggeringByNumber);
+        //            }
+        //        }
+        //    }
+        //    context.SaveChanges();
+        //}
     }
 }

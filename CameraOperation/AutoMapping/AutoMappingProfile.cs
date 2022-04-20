@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using CameraOperation.Models;
-using CameraOperation.AutoMapping.DtoModels;
+using CamerOperationClassLibrary.Models;
+using CamerOperationClassLibrary.AutoMapping.DtoModels;
 
 
-namespace CameraOperation
+namespace CamerOperationClassLibrary
 {
     public class AutoMappingProfile : Profile
     {

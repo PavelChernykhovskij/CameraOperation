@@ -1,4 +1,4 @@
-﻿namespace CameraOperation.Models
+﻿namespace CamerOperationClassLibrary.Models
 {
     public class User
     {
