@@ -21,8 +21,6 @@ namespace CamerOperationClassLibrary.Services
         public void ViolationDetect(Fixation fixation)
         {
             var rbs = _ruleOfSearchBySpeed.ReadAll().ToList();
-
-
             if (fixation != null)
             {
                 foreach (RuleOfSearchBySpeed violation in rbs)
@@ -30,13 +28,13 @@ namespace CamerOperationClassLibrary.Services
                     if (fixation.CarSpeed >= violation.Speed)
                     {
                         Fixation fixation1 = _fixation.Read().Where(f => f.Id == fixation.Id).FirstOrDefault();
-                        
                         RuleOfSearchBySpeed ruleOfSearchBySpeed = _ruleOfSearchBySpeed.ReadAll().Where(r => r.Id == violation.Id).FirstOrDefault();
-
                         TriggeringBySpeed triggeringBySpeed = new TriggeringBySpeed() { CarSpeed = fixation.CarSpeed, FixationDate = fixation.FixationDate, Fixation = fixation1, RuleOfSearchBySpeedId = ruleOfSearchBySpeed.Id, RuleOfSearchBySpeed = ruleOfSearchBySpeed};
                         _triggeringBySpeed.Create(triggeringBySpeed);
 
-                        //Console.WriteLine($"({triggeringBySpeed.Id}, {triggeringBySpeed.CarSpeed}, {triggeringBySpeed.RuleOfSearchBySpeedId}, {triggeringBySpeed.FixationDate}, {triggeringBySpeed.Fixation.Id}, {triggeringBySpeed.RuleOfSearchBySpeed.Speed} )");
+                        //_fixation.Update(triggeringBySpeed.Fixation);
+                        //_ruleOfSearchBySpeed.Update(triggeringBySpeed.RuleOfSearchBySpeed);
+                        //_user.Update(triggeringBySpeed.RuleOfSearchBySpeed.User);
                     }
                 }
             }

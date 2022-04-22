@@ -16,6 +16,9 @@ namespace CamerOperationClassLibrary.EntityFramework.Repositories
             using var context = _factory.Create();
             {
                 context.TriggeringByNumbers.Add(data);
+                context.Entry(data.Fixation).State = EntityState.Modified;
+                context.Entry(data.RuleOfSearchByNumber).State = EntityState.Modified;
+                context.Entry(data.RuleOfSearchByNumber.User).State = EntityState.Modified;
                 context.SaveChanges();
             }
             return true;

@@ -1,4 +1,5 @@
 ﻿using CamerOperationClassLibrary.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CamerOperationClassLibrary.EntityFramework.Repositories
 {
@@ -27,7 +28,9 @@ namespace CamerOperationClassLibrary.EntityFramework.Repositories
 
         public bool Update(User data)
         {
-            throw new NotImplementedException();
+            using var context = _factory.Create();
+            context.Entry(data).State = EntityState.Modified;
+            return true;
         }
     }
 }

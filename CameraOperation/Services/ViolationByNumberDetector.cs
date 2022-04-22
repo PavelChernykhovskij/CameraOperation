@@ -28,9 +28,12 @@ namespace CamerOperationClassLibrary.Services
                     {
                         Fixation fixation1 = _fixation.Read().Where(f => f.Id == fixation.Id).FirstOrDefault();
                         RuleOfSearchByNumber ruleOfSearchByNumber = _ruleOfSearchByNumber.ReadAll().Where(r => r.Id == violation.Id).FirstOrDefault();
-
                         TriggeringByNumber triggeringByNumber = new TriggeringByNumber() { CarNumber = fixation.CarNumber, FixationDate = fixation.FixationDate, RuleOfSearchByNumber = ruleOfSearchByNumber, RuleOfSearchByNumberId = ruleOfSearchByNumber.Id, Fixation = fixation1 };
                         _triggeringByNumber.Create(triggeringByNumber);
+                        
+                        //_fixation.Update(triggeringByNumber.Fixation);
+                        //_ruleOfSearchByNumber.Update(triggeringByNumber.RuleOfSearchByNumber);
+                        //_user.Update(triggeringByNumber.RuleOfSearchByNumber.User);
                     }
                 }
             }

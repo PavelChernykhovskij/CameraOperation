@@ -50,26 +50,5 @@ namespace CamerOperationClassLibrary.EntityFramework.Repositories
             return true;
         }
 
-        //public void Detect(Fixation fixation)
-        //{
-        //    using var context = _factory.Create();
-        //    IEnumerable<RuleOfSearchBySpeed> violations = context.RulesOfSearchBySpeed.ToList();
-        //    if (fixation != null)
-        //    {
-        //        foreach (RuleOfSearchBySpeed violation in violations)
-        //        {
-        //            if (fixation.CarSpeed >= violation.Speed)
-        //            {
-        //                context.Fixations.Add(fixation);
-        //                context.SaveChanges();
-        //                Fixation fixation1 = context.Fixations.FirstOrDefault(f => f.Id == fixation.Id);
-        //                RuleOfSearchBySpeed ruleOfSearchBySpeed = context.RulesOfSearchBySpeed.FirstOrDefault(rs => rs.Id == violation.Id);
-        //                TriggeringBySpeed triggeringBySpeed = new TriggeringBySpeed() { CarSpeed = fixation.CarSpeed, FixationDate = fixation.FixationDate, Fixation = fixation1, RuleOfSearchBySpeed = ruleOfSearchBySpeed };
-        //                context.TriggeringBySpeeds.Add(triggeringBySpeed);
-        //            }
-        //        }
-        //    }
-        //    context.SaveChanges();
-        //}
     }
 }
