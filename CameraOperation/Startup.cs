@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using CamerOperationClassLibrary.Services;
 using CamerOperationClassLibrary.Models;
-using CamerOperationClassLibrary.AutoMapping.DtoModels;
 using CamerOperationClassLibrary.EntityFramework.Repositories;
 using CamerOperationClassLibrary.EntityFramework;
 
@@ -42,17 +41,18 @@ namespace CamerOperationClassLibrary
                 optionsLifetime: ServiceLifetime.Transient);
 
             services.AddTransient<ICameraOperationContextFactory, CameraOperationContextFactory>();
+
             services.AddTransient<IRepository<User>, UserRepository>();
             services.AddTransient<IRepository<Fixation>, FixationRepository>();
-            services.AddTransient<IRuleOfSearchRepository<RuleOfSearchByNumber>, RuleOfSearchByNumberRepository>();
-            services.AddTransient<IRuleOfSearchRepository<RuleOfSearchBySpeed>, RuleOfSearchBySpeedRepository>();
+            services.AddTransient<IRepository<RuleOfSearchByNumber>, RuleOfSearchByNumberRepository>();
+            services.AddTransient<IRepository<RuleOfSearchBySpeed>, RuleOfSearchBySpeedRepository>();
             services.AddTransient<IRepository<TriggeringByNumber>, TriggeringByNumberRepository>();
             services.AddTransient<IRepository<TriggeringBySpeed>, TriggeringBySpeedRepository>();
 
-            services.AddHostedService<TestRepos>();
             services.AddTransient<IViolationDetector, ViolationByNumberDetector>();
             services.AddTransient<IViolationDetector, ViolationBySpeedDetector>();
 
+            services.AddHostedService<TestRepos>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

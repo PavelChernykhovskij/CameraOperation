@@ -7,14 +7,14 @@ namespace CamerOperationClassLibrary.Services
     {
         private readonly IRepository<User> _userRepo;
         private readonly IRepository<Fixation> _fixationRepo;
-        private readonly IRuleOfSearchRepository<RuleOfSearchByNumber> _ruleOfSearchByNumberRepo;
-        private readonly IRuleOfSearchRepository<RuleOfSearchBySpeed> _ruleOfSearchBySpeedRepo;
+        private readonly IRepository<RuleOfSearchByNumber> _ruleOfSearchByNumberRepo;
+        private readonly IRepository<RuleOfSearchBySpeed> _ruleOfSearchBySpeedRepo;
         private readonly IRepository<TriggeringByNumber> _triggeringByNumberRepo;
         private readonly IRepository<TriggeringBySpeed> _triggeringBySpeedRepo;
         public TestRepos(IRepository<User> userRepo, 
             IRepository<Fixation> fixationRepo,
-            IRuleOfSearchRepository<RuleOfSearchByNumber> ruleOfSearchByNumberRepo, 
-            IRuleOfSearchRepository<RuleOfSearchBySpeed> ruleOfSearchBySpeedRepo,
+            IRepository<RuleOfSearchByNumber> ruleOfSearchByNumberRepo,
+            IRepository<RuleOfSearchBySpeed> ruleOfSearchBySpeedRepo,
             IRepository<TriggeringByNumber> triggeringByNumberRepo,
             IRepository<TriggeringBySpeed> triggeringBySpeedRepo)
         {
@@ -34,12 +34,12 @@ namespace CamerOperationClassLibrary.Services
                 Console.WriteLine($"Номер автомбиля: {f.CarNumber} Дата фиксации: {f.FixationDate} Скорость автомобиля: {f.CarSpeed}");
             }
 
-            foreach (RuleOfSearchByNumber rbn in _ruleOfSearchByNumberRepo.ReadAll())
+            foreach (RuleOfSearchByNumber rbn in _ruleOfSearchByNumberRepo.Read())
             {
                 Console.WriteLine($"   Правило для номера { rbn.Number}");
             }
           
-            foreach (RuleOfSearchBySpeed rbs in _ruleOfSearchBySpeedRepo.ReadAll())
+            foreach (RuleOfSearchBySpeed rbs in _ruleOfSearchBySpeedRepo.Read())
             {
                 Console.WriteLine($"   Правило для скорости { rbs.Speed}");
             }

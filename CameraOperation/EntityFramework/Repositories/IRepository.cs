@@ -7,6 +7,6 @@ namespace CamerOperationClassLibrary.EntityFramework.Repositories
         bool Create(T data);
         IEnumerable<T> Read();
         bool Update(T data);
-        bool Delete(T data);
+        bool Delete(int id);
     }
 }

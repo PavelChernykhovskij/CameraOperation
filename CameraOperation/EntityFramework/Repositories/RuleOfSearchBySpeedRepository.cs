@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CamerOperationClassLibrary.EntityFramework.Repositories
 {
-    public class RuleOfSearchBySpeedRepository : IRuleOfSearchRepository<RuleOfSearchBySpeed>
+    public class RuleOfSearchBySpeedRepository : IRepository<RuleOfSearchBySpeed>
     {
         private readonly ICameraOperationContextFactory _factory;
         public RuleOfSearchBySpeedRepository(ICameraOperationContextFactory factory)
@@ -29,14 +29,7 @@ namespace CamerOperationClassLibrary.EntityFramework.Repositories
             return true;
         }
 
-        public RuleOfSearchBySpeed ReadOne()
-        {
-            using var context = _factory.Create();
-            var rules = context.RulesOfSearchBySpeed.Include(u => u.User).ToList();
-            return rules.FirstOrDefault();
-        }
-
-        public IEnumerable<RuleOfSearchBySpeed> ReadAll()
+        public IEnumerable<RuleOfSearchBySpeed> Read()
         {
             using var context = _factory.Create();
             var rules = context.RulesOfSearchBySpeed.Include(u => u.User).ToList();

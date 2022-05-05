@@ -22,7 +22,7 @@ namespace CamerOperationClassLibrary.EntityFramework.Repositories
             return true;       
         }
 
-        public bool Delete(Fixation data)
+        public bool Delete(int id)
         {
             throw new NotImplementedException();
         }

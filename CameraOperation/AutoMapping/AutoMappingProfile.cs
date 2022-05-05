@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
+using CamerOperationClassLibrary.Dtos;
 using CamerOperationClassLibrary.Models;
-using CamerOperationClassLibrary.AutoMapping.DtoModels;
-
 
 namespace CamerOperationClassLibrary
 {

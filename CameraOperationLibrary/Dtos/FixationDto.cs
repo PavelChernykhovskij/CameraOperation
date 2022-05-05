@@ -1,4 +1,4 @@
-﻿namespace CamerOperationClassLibrary
+﻿namespace CamerOperationClassLibrary.Dtos
 {
     public class FixationDto
     {

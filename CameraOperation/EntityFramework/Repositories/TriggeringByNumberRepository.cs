@@ -11,20 +11,16 @@ namespace CamerOperationClassLibrary.EntityFramework.Repositories
         {
             _factory = factory;
         }
+
         public bool Create(TriggeringByNumber data)
         {
             using var context = _factory.Create();
-            {
-                context.TriggeringByNumbers.Add(data);
-                context.Entry(data.Fixation).State = EntityState.Modified;
-                context.Entry(data.RuleOfSearchByNumber).State = EntityState.Modified;
-                context.Entry(data.RuleOfSearchByNumber.User).State = EntityState.Modified;
-                context.SaveChanges();
-            }
+            context.TriggeringByNumbers.Add(data);
+            context.SaveChanges();
             return true;
         }
 
-        public bool Delete(TriggeringByNumber data)
+        public bool Delete(int id)
         {
             throw new NotImplementedException();
         }

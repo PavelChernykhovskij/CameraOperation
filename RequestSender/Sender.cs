@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Hosting;
 using System.Text;
 using Newtonsoft.Json;
+using CamerOperationClassLibrary.Dtos;
 
 namespace CamerOperationClassLibrary
 {
@@ -25,7 +26,7 @@ namespace CamerOperationClassLibrary
             var json = JsonConvert.SerializeObject(person);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var url = "https://localhost:7037/api/Fixation/Create/";
+            var url = "https://localhost:7037/api/Fixation/Detect/";
             using var client = new HttpClient();
 
             var response = client.PostAsync(url, data).Result;

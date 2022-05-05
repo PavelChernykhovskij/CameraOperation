@@ -15,14 +15,11 @@ namespace CamerOperationClassLibrary.EntityFramework.Repositories
             using var context = _factory.Create();
             {
                 context.TriggeringBySpeeds.Add(data);
-                context.Entry(data.Fixation).State = EntityState.Modified;
-                context.Entry(data.RuleOfSearchBySpeed).State = EntityState.Modified;
-                context.Entry(data.RuleOfSearchBySpeed.User).State = EntityState.Modified;
                 context.SaveChanges();
             }
             return true;
         }
-        public bool Delete(TriggeringBySpeed data)
+        public bool Delete(int id)
         {
             throw new NotImplementedException();
         }

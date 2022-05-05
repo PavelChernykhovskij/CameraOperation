@@ -1,4 +1,4 @@
-﻿namespace CamerOperationClassLibrary.AutoMapping.DtoModels
+﻿namespace CamerOperationClassLibrary.Dtos
 {
     public class TriggeringByNumberDto
     {

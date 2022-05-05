@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using CamerOperationClassLibrary.Models;
-using CamerOperationClassLibrary.AutoMapping.DtoModels;
 using CamerOperationClassLibrary.EntityFramework.Repositories;
-using CamerOperationClassLibrary.Services;
+using CamerOperationClassLibrary.Dtos;
 
 namespace CamerOperationClassLibrary.Controllers
 {
@@ -24,11 +23,7 @@ namespace CamerOperationClassLibrary.Controllers
         public ActionResult Get()
         {
             var users = _userRepo.Read();
-            List<UserDto> dtos = new();
-            foreach (User user in users)
-            {
-                dtos.Add(_mapper.Map<UserDto>(user));
-            }
+            var dtos = users.Select(_mapper.Map<FixationDto>).ToList();
             return Json(dtos);
         }
     }

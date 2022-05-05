@@ -1,10 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CamerOperationClassLibrary.Configurations;
 using CamerOperationClassLibrary.Models;
-using CamerOperationClassLibrary.Configurations;
+using Microsoft.EntityFrameworkCore;
 
 namespace CamerOperationClassLibrary
 {
-
     public class CameraOperationContext : DbContext
     {
         public DbSet<User> Users => Set<User>();
@@ -15,10 +14,7 @@ namespace CamerOperationClassLibrary
         public DbSet<TriggeringBySpeed> TriggeringBySpeeds => Set<TriggeringBySpeed>();
 
         public CameraOperationContext(DbContextOptions<CameraOperationContext> options)
-            : base(options)
-        {
-
-        }
+            : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,11 +25,5 @@ namespace CamerOperationClassLibrary
             modelBuilder.ApplyConfiguration(new TriggeringBySpeedConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
         }
-
-
     }
-
-  
 }
-
-

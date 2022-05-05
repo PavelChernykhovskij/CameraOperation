@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using CamerOperationClassLibrary.Models;
-using CamerOperationClassLibrary.AutoMapping.DtoModels;
+using CamerOperationClassLibrary.Dtos;
 using CamerOperationClassLibrary.EntityFramework.Repositories;
-using CamerOperationClassLibrary.Services;
+using CamerOperationClassLibrary.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CamerOperationClassLibrary.Controllers
 {
@@ -24,11 +23,7 @@ namespace CamerOperationClassLibrary.Controllers
         public ActionResult Get()
         {
             var triggerings = _triggeringBySpeedRepo.Read();
-            List<TriggeringBySpeedDto> dtos = new();
-            foreach (TriggeringBySpeed triggering in triggerings)
-            {
-                dtos.Add(_mapper.Map<TriggeringBySpeedDto>(triggering));
-            }
+            var dtos = triggerings.Select(_mapper.Map<FixationDto>).ToList();
             return Json(dtos);
         }
     }

@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using CamerOperationClassLibrary.Models;
-using CamerOperationClassLibrary.AutoMapping.DtoModels;
 using CamerOperationClassLibrary.EntityFramework.Repositories;
 using CamerOperationClassLibrary.Services;
+using CamerOperationClassLibrary.Dtos;
 
 namespace CamerOperationClassLibrary.Controllers
 {
@@ -13,46 +12,44 @@ namespace CamerOperationClassLibrary.Controllers
     public class FixationController : Controller
     {
         private readonly IMapper _mapper;
-        private readonly IRepository<Fixation> _fixation;
+        private readonly IRepository<Fixation> _repository;
         private readonly IEnumerable<IViolationDetector> _violationDetector;
 
-        public FixationController(IMapper mapper, IEnumerable<IViolationDetector> violationDetector,
-            IRepository<Fixation> fixationRepo)
+        public FixationController(
+            IMapper mapper,
+            IRepository<Fixation> repository,
+            IEnumerable<IViolationDetector> violationDetector)
         {
             _mapper = mapper;
-            _fixation = fixationRepo;
+            _repository = repository;
             _violationDetector = violationDetector;
         }
 
         [HttpPost]
-        public ActionResult Detect(FixationDto model)
+        public ActionResult Detect(FixationDto dto)
         {
-            var fixation = _mapper.Map<Fixation>(model);
-            _fixation.Create(fixation);
+            var model = _mapper.Map<Fixation>(dto);
+            _repository.Create(model);
             foreach (var violationDetector in _violationDetector)
             {
-                violationDetector.ViolationDetect(fixation);
+                violationDetector.ViolationDetect(model);
             }
-            return Json("Ok");
+            return Ok("Обрабтано");
         }
 
         [HttpPost]
-        public ActionResult Create(FixationDto model)
+        public ActionResult Create(FixationDto dto)
         {
-            var fixation = _mapper.Map<Fixation>(model);
-            _fixation.Create(fixation);
+            var model = _mapper.Map<Fixation>(dto);
+            _repository.Create(model);
             return Json(model);
         }
 
         [HttpGet]
         public ActionResult Get()
         {
-            var fixations = _fixation.Read();
-            List<FixationDto> dtos = new();
-            foreach (Fixation fixation in fixations)
-            {
-                dtos.Add(_mapper.Map<FixationDto>(fixation));
-            }
+            var fixations = _repository.Read();
+            var dtos = fixations.Select(_mapper.Map<FixationDto>).ToList();
             return Json(dtos);
         }
     }

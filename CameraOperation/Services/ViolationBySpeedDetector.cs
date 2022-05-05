@@ -3,41 +3,25 @@ using CamerOperationClassLibrary.EntityFramework.Repositories;
 
 namespace CamerOperationClassLibrary.Services
 {
-    public class ViolationBySpeedDetector : IViolationDetector
+    public class ViolationBySpeedDetector
+        : ViolationDetector<RuleOfSearchBySpeed, TriggeringBySpeed>
     {
-        private readonly IRuleOfSearchRepository<RuleOfSearchBySpeed> _ruleOfSearchBySpeed;
-        private readonly IRepository<Fixation> _fixation;
-        private readonly IRepository<TriggeringBySpeed> _triggeringBySpeed;
-        private readonly IRepository<User> _user;
+        public ViolationBySpeedDetector(
+            IRepository<RuleOfSearchBySpeed> ruleRepository,
+            IRepository<TriggeringBySpeed> triggeringRepository)
+            : base(ruleRepository, triggeringRepository) { }
 
-        public ViolationBySpeedDetector(IRuleOfSearchRepository<RuleOfSearchBySpeed> ruleOfSearchBySpeed, IRepository<User> user, IRepository<Fixation> fixation, IRepository<TriggeringBySpeed> triggeringBySpeed)
+        public override TriggeringBySpeed? GetTriggering(Fixation fixation, RuleOfSearchBySpeed rule)
         {
-            _ruleOfSearchBySpeed = ruleOfSearchBySpeed;
-            _fixation = fixation;
-            _triggeringBySpeed = triggeringBySpeed;
-            _user = user;
-
-        }
-        public void ViolationDetect(Fixation fixation)
-        {
-            var rbs = _ruleOfSearchBySpeed.ReadAll().ToList();
-            if (fixation != null)
-            {
-                foreach (RuleOfSearchBySpeed violation in rbs)
+            return fixation.CarSpeed > rule.Speed
+                ? new TriggeringBySpeed
                 {
-                    if (fixation.CarSpeed >= violation.Speed)
-                    {
-                        Fixation fixation1 = _fixation.Read().Where(f => f.Id == fixation.Id).FirstOrDefault();
-                        RuleOfSearchBySpeed ruleOfSearchBySpeed = _ruleOfSearchBySpeed.ReadAll().Where(r => r.Id == violation.Id).FirstOrDefault();
-                        TriggeringBySpeed triggeringBySpeed = new TriggeringBySpeed() { CarSpeed = fixation.CarSpeed, FixationDate = fixation.FixationDate, Fixation = fixation1, RuleOfSearchBySpeedId = ruleOfSearchBySpeed.Id, RuleOfSearchBySpeed = ruleOfSearchBySpeed};
-                        _triggeringBySpeed.Create(triggeringBySpeed);
-
-                        //_fixation.Update(triggeringBySpeed.Fixation);
-                        //_ruleOfSearchBySpeed.Update(triggeringBySpeed.RuleOfSearchBySpeed);
-                        //_user.Update(triggeringBySpeed.RuleOfSearchBySpeed.User);
-                    }
+                    FixationId = fixation.Id,
+                    RuleOfSearchBySpeedId = rule.Id,
+                    FixationDate = fixation.FixationDate,
+                    CarSpeed = fixation.CarSpeed
                 }
-            }
+                : null;
         }
     }
 }

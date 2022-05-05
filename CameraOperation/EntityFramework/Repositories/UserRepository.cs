@@ -15,7 +15,7 @@ namespace CamerOperationClassLibrary.EntityFramework.Repositories
             throw new NotImplementedException();
         }
 
-        public bool Delete(User data)
+        public bool Delete(int id)
         {
             throw new NotImplementedException();
         }

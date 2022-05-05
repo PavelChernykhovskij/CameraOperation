@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using CamerOperationClassLibrary.Models;
-using CamerOperationClassLibrary.AutoMapping.DtoModels;
+using CamerOperationClassLibrary.Dtos;
 using CamerOperationClassLibrary.EntityFramework.Repositories;
-using CamerOperationClassLibrary.Services;
+using CamerOperationClassLibrary.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CamerOperationClassLibrary.Controllers
 {
@@ -12,46 +11,36 @@ namespace CamerOperationClassLibrary.Controllers
     public class RuleOfSearchByNumberController : Controller
     {
         private readonly IMapper _mapper;
-        private readonly IRuleOfSearchRepository<RuleOfSearchByNumber> _ruleOfSearchByNumberRepo;
+        private readonly IRepository<RuleOfSearchByNumber> _repository;
 
-        public RuleOfSearchByNumberController(IMapper mapper, IRuleOfSearchRepository<RuleOfSearchByNumber> ruleOfSearchByNumberRepo)
+        public RuleOfSearchByNumberController(
+            IMapper mapper,
+            IRepository<RuleOfSearchByNumber> repository)
         {
             _mapper = mapper;
-            _ruleOfSearchByNumberRepo = ruleOfSearchByNumberRepo;
+            _repository = repository;
         }
 
         [HttpGet]
-        public ActionResult GetAll()
+        public ActionResult Get()
         {
-            var rules = _ruleOfSearchByNumberRepo.ReadAll();
-            List<RuleOfSearchByNumberDto> dtos = new();
-            foreach (RuleOfSearchByNumber rule in rules)
-            {
-                dtos.Add(_mapper.Map<RuleOfSearchByNumberDto>(rule));
-            }
+            var rules = _repository.Read();
+            var dtos = rules.Select(_mapper.Map<FixationDto>).ToList();
             return Json(dtos);
         }
 
-        [HttpGet]
-        public ActionResult GetOne()
-        {
-            var rule = _ruleOfSearchByNumberRepo.ReadOne();
-            var ruleDto = _mapper.Map<RuleOfSearchByNumberDto>(rule);
-            return Json(ruleDto);
-        }
-
         [HttpPost]
-        public ActionResult Create(RuleOfSearchByNumberDto model)
+        public ActionResult Create(RuleOfSearchByNumberDto dto)
         {
-            var rule = _mapper.Map<RuleOfSearchByNumber>(model);
-            _ruleOfSearchByNumberRepo.Create(rule);
-            return Json(model);
+            var model = _mapper.Map<RuleOfSearchByNumber>(dto);
+            _repository.Create(model);
+            return Json(dto);
         }
 
         [HttpGet]
         public ActionResult Delete(int id)
         {
-            _ruleOfSearchByNumberRepo.Delete(id);
+            _repository.Delete(id);
             return Json(id);
         }
 
@@ -59,10 +48,9 @@ namespace CamerOperationClassLibrary.Controllers
         public ActionResult Update(RuleOfSearchByNumber data)
         {
             var rule = _mapper.Map<RuleOfSearchByNumberDto>(data);
-            _ruleOfSearchByNumberRepo.Update(data);
+            _repository.Update(data);
             return Json(rule);
         }
-
     }
 }
 
