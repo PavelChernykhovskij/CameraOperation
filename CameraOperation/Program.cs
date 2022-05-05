@@ -1,8 +1,9 @@
-using CameraOperation;
+using CamerOperationClassLibrary.EntityFramework;
+using CamerOperationClassLibrary;
 
 try
 {
-    using var host = CreateHostBuilder(args).Build();
+    using var host = CreateHostBuilder(args).Build().EnsureDatabaseCreated();
     await host.StartAsync();
     await host.WaitForShutdownAsync();
 

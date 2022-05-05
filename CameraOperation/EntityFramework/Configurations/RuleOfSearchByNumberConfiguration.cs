@@ -1,8 +1,8 @@
-﻿using CameraOperation.Models;
+﻿using CamerOperationClassLibrary.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CameraOperation.Configurations
+namespace CamerOperationClassLibrary.Configurations
 {
     public class RuleOfSearchByNumberConfiguration : IEntityTypeConfiguration<RuleOfSearchByNumber>
     {
@@ -12,7 +12,7 @@ namespace CameraOperation.Configurations
             builder.HasMany(r => r.TriggeringsByNumber)
                    .WithOne(t => t.RuleOfSearchByNumber)
                    .HasForeignKey(t => t.RuleOfSearchByNumberId);
-            
+            builder.HasKey(rn => rn.Id);
             builder.Property(rn => rn.Number).IsRequired().HasMaxLength(10);
             builder.Property(rn => rn.DateOfCreate).IsRequired().HasMaxLength(28).HasColumnType("datetime2(2)");
         }

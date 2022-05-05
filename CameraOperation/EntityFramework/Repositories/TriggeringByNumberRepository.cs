@@ -1,7 +1,9 @@
-﻿using CameraOperation.Models;
-namespace CameraOperation.EntityFramework.Repositories
+﻿using CamerOperationClassLibrary.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace CamerOperationClassLibrary.EntityFramework.Repositories
 {
-    public class TriggeringByNumberRepository : ITriggeringByNumberRepository<TriggeringByNumber>
+    public class TriggeringByNumberRepository : IRepository<TriggeringByNumber>
     {
 
         private readonly ICameraOperationContextFactory _factory;
@@ -9,12 +11,16 @@ namespace CameraOperation.EntityFramework.Repositories
         {
             _factory = factory;
         }
+
         public bool Create(TriggeringByNumber data)
         {
-            throw new NotImplementedException();
+            using var context = _factory.Create();
+            context.TriggeringByNumbers.Add(data);
+            context.SaveChanges();
+            return true;
         }
 
-        public bool Delete(TriggeringByNumber data)
+        public bool Delete(int id)
         {
             throw new NotImplementedException();
         }
@@ -22,7 +28,8 @@ namespace CameraOperation.EntityFramework.Repositories
         public IEnumerable<TriggeringByNumber> Read()
         {
             using var context = _factory.Create();
-            return context.TriggeringByNumbers.ToList();
+            var triggers = context.TriggeringByNumbers.Include(r => r.RuleOfSearchByNumber).ToList();
+            return triggers;
         }
 
         public bool Update(TriggeringByNumber data)

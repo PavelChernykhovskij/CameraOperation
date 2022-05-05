@@ -1,9 +1,9 @@
-﻿using CameraOperation.Models;
+﻿using CamerOperationClassLibrary.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CameraOperation.EntityFramework.Repositories
+namespace CamerOperationClassLibrary.EntityFramework.Repositories
 {
-    public class RuleOfSearchByNumberRepository : IRuleOfSearchByNumberRepository<RuleOfSearchByNumber>
+    public class RuleOfSearchByNumberRepository : IRepository<RuleOfSearchByNumber>
     {
         private readonly ICameraOperationContextFactory _factory;
         public RuleOfSearchByNumberRepository(ICameraOperationContextFactory factory)
@@ -19,25 +19,20 @@ namespace CameraOperation.EntityFramework.Repositories
             return true;
         }
 
-        public bool Delete(RuleOfSearchByNumber data)
+        public bool Delete(int id)
         {
             using var context = _factory.Create();
-            RuleOfSearchByNumber ruleOfSearchByNumber = context.RulesOfSearchByNumber.Find(data);
+            RuleOfSearchByNumber ruleOfSearchByNumber = context.RulesOfSearchByNumber.Find(id);
             context.RulesOfSearchByNumber.Remove(ruleOfSearchByNumber);
             context.SaveChanges();
             return true;
         }
 
-        public RuleOfSearchByNumber ReadOne()
+        public IEnumerable<RuleOfSearchByNumber> Read()
         {
             using var context = _factory.Create();
-            return context.RulesOfSearchByNumber.FirstOrDefault();
-        }
-
-        public IEnumerable<RuleOfSearchByNumber> ReadAll()
-        {
-            using var context = _factory.Create();
-            return context.RulesOfSearchByNumber.ToList();
+            var rules = context.RulesOfSearchByNumber.Include(u => u.User).ToList();
+            return rules;
         }
 
         public bool Update(RuleOfSearchByNumber data)
@@ -46,5 +41,7 @@ namespace CameraOperation.EntityFramework.Repositories
             context.Entry(data).State = EntityState.Modified;
             return true;
         }
+
+      
     }
 }

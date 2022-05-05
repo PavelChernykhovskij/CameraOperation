@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-namespace CameraOperation.EntityFramework
+namespace CamerOperationClassLibrary.EntityFramework
 {
     public class CameraOperationContextFactory : ICameraOperationContextFactory 
     {

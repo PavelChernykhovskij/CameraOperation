@@ -1,7 +1,7 @@
-﻿using CameraOperation.Configurations;
+﻿using CamerOperationClassLibrary.Configurations;
 using Microsoft.EntityFrameworkCore;
 
-namespace CameraOperation.Models
+namespace CamerOperationClassLibrary.Models
 {
     public class Fixation
     {
@@ -10,8 +10,5 @@ namespace CameraOperation.Models
         public DateTime FixationDate { get; set; }
         public int CarSpeed { get; set; }
         public string CarNumber { get; set; }
-
-        public TriggeringByNumber TriggeringByNumber { get; set; }
-        public TriggeringBySpeed TriggeringBySpeed { get; set; }
     }
 }

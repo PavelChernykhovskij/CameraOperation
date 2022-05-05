@@ -1,10 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using CameraOperation.Models;
-using CameraOperation.Configurations;
+﻿using CamerOperationClassLibrary.Configurations;
+using CamerOperationClassLibrary.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace CameraOperation
+namespace CamerOperationClassLibrary
 {
-
     public class CameraOperationContext : DbContext
     {
         public DbSet<User> Users => Set<User>();
@@ -15,17 +14,7 @@ namespace CameraOperation
         public DbSet<TriggeringBySpeed> TriggeringBySpeeds => Set<TriggeringBySpeed>();
 
         public CameraOperationContext(DbContextOptions<CameraOperationContext> options)
-            : base(options)
-        {
-            // TODO: delete
-            Database.EnsureDeleted();
-
-            if (Database.EnsureCreated())
-            {
-                //TODO: create user, fill data
-                FillDatabase();
-            }
-        }
+            : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,13 +25,5 @@ namespace CameraOperation
             modelBuilder.ApplyConfiguration(new TriggeringBySpeedConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
         }
-
-        private static void FillDatabase()
-        {
-
-        }
-
     }
-
 }
-

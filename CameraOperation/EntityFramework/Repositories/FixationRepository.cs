@@ -1,13 +1,15 @@
-﻿using CameraOperation.Models; 
+﻿using CamerOperationClassLibrary.Models;
+using CamerOperationClassLibrary.Services;
+using Microsoft.EntityFrameworkCore;
 
-namespace CameraOperation.EntityFramework.Repositories
+namespace CamerOperationClassLibrary.EntityFramework.Repositories
 {
-    public class FixationRepository : IFixationRepository<Fixation>
+    public class FixationRepository : IRepository<Fixation>
     {
         private readonly ICameraOperationContextFactory _factory;
         public FixationRepository(ICameraOperationContextFactory factory)
         {
-            _factory = factory;    
+            _factory = factory;
         }
 
         public bool Create(Fixation data)
@@ -20,7 +22,7 @@ namespace CameraOperation.EntityFramework.Repositories
             return true;       
         }
 
-        public bool Delete(Fixation data)
+        public bool Delete(int id)
         {
             throw new NotImplementedException();
         }
@@ -33,7 +35,9 @@ namespace CameraOperation.EntityFramework.Repositories
 
         public bool Update(Fixation data)
         {
-            throw new NotImplementedException();
+            using var context = _factory.Create();
+            context.Entry(data).State = EntityState.Modified;
+            return true;
         }
     }
 }

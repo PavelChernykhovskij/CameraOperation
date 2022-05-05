@@ -1,8 +1,8 @@
-﻿using CameraOperation.Models;
+﻿using CamerOperationClassLibrary.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CameraOperation.Configurations
+namespace CamerOperationClassLibrary.Configurations
 {
     public class RuleOfSearchBySpeedConfiguration : IEntityTypeConfiguration<RuleOfSearchBySpeed>
     {
@@ -13,6 +13,7 @@ namespace CameraOperation.Configurations
                    .WithOne(t => t.RuleOfSearchBySpeed)
                    .HasForeignKey(t => t.RuleOfSearchBySpeedId);
 
+            builder.HasKey(rs => rs.Id);
             builder.Property(rs => rs.Speed).IsRequired();
             builder.Property(rs => rs.DateOfCreate).IsRequired().HasMaxLength(28).HasColumnType("datetime2(2)");
         }

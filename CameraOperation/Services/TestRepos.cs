@@ -1,243 +1,60 @@
-﻿using CameraOperation.Models;
-using CameraOperation;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using CameraOperation.EntityFramework.Repositories;
-using CameraOperation.EntityFramework;
+﻿using CamerOperationClassLibrary.Models;
+using CamerOperationClassLibrary.EntityFramework.Repositories;
 
-namespace CameraOperation.Services
+namespace CamerOperationClassLibrary.Services
 {
     public class TestRepos : IHostedService
     {
-
-        //public ContextFactory(DbContextOptions<CameraOperationContext> options)
-        //{
-        //    using var context = new CameraOperationContext(options);
-        //}
-
-        // Реализации IRepository
-        //public RepositoryImplementation(IContextFactory factory)
-        //{
-        //    _factory = factory;
-        //    using var context = _factory.Create();
-        //    // Do some actions with context
-        //}
-
-
-        private readonly IUserRepository<User> _userRepo;
-        private readonly IFixationRepository<Fixation> _fixationRepo;
-        private readonly IRuleOfSearchByNumberRepository<RuleOfSearchByNumber> _ruleOfSearchByNumberRepo;
-        private readonly IRuleOfSearchBySpeedRepository<RuleOfSearchBySpeed> _ruleOfSearchBySpeedRepo;
-        private readonly ITriggeringByNumberRepository<TriggeringByNumber> _triggeringByNumberRepo;
-        private readonly ITriggeringBySpeedRepository<TriggeringBySpeed> _triggeringBySpeedRepo;
-        public TestRepos(IUserRepository<User> userRepo, 
-            IFixationRepository<Fixation> fixationRepo,
-            IRuleOfSearchByNumberRepository<RuleOfSearchByNumber> ruleOfSearchByNumberRepo, 
-            IRuleOfSearchBySpeedRepository<RuleOfSearchBySpeed> ruleOfSearchBySpeedRepo,
-            ITriggeringByNumberRepository<TriggeringByNumber> triggeringByNumberRepo,
-            ITriggeringBySpeedRepository<TriggeringBySpeed> triggeringBySpeedRepo)
+        private readonly IRepository<User> _userRepo;
+        private readonly IRepository<Fixation> _fixationRepo;
+        private readonly IRepository<RuleOfSearchByNumber> _ruleOfSearchByNumberRepo;
+        private readonly IRepository<RuleOfSearchBySpeed> _ruleOfSearchBySpeedRepo;
+        private readonly IRepository<TriggeringByNumber> _triggeringByNumberRepo;
+        private readonly IRepository<TriggeringBySpeed> _triggeringBySpeedRepo;
+        public TestRepos(IRepository<User> userRepo, 
+            IRepository<Fixation> fixationRepo,
+            IRepository<RuleOfSearchByNumber> ruleOfSearchByNumberRepo,
+            IRepository<RuleOfSearchBySpeed> ruleOfSearchBySpeedRepo,
+            IRepository<TriggeringByNumber> triggeringByNumberRepo,
+            IRepository<TriggeringBySpeed> triggeringBySpeedRepo)
         {
             _userRepo = userRepo;
             _fixationRepo = fixationRepo;
             _ruleOfSearchByNumberRepo = ruleOfSearchByNumberRepo;
             _ruleOfSearchBySpeedRepo = ruleOfSearchBySpeedRepo;
             _triggeringByNumberRepo = triggeringByNumberRepo;
-            _triggeringByNumberRepo = triggeringByNumberRepo;
+            _triggeringBySpeedRepo = triggeringBySpeedRepo;
         }
 
         public Task StartAsync(CancellationToken stoppingToken)
         {
-            Console.WriteLine("Timed Hosted Service running.");
 
-            
-            TestRepos testRepos = new TestRepos(_userRepo, _fixationRepo, _ruleOfSearchByNumberRepo, _ruleOfSearchBySpeedRepo, _triggeringByNumberRepo, _triggeringBySpeedRepo);
-            Fixation fixation1 = new Fixation { FixationDate = DateTime.Now, CarNumber = "231", CarSpeed = 123 };
-
-            //Console.WriteLine(testRepos._fixationRepo.Create(fixation1));
-            foreach(User f in testRepos._userRepo.Read())
+            foreach (Fixation f in _fixationRepo.Read())
             {
-                Console.WriteLine(f);
+                Console.WriteLine($"Номер автомбиля: {f.CarNumber} Дата фиксации: {f.FixationDate} Скорость автомобиля: {f.CarSpeed}");
             }
 
+            foreach (RuleOfSearchByNumber rbn in _ruleOfSearchByNumberRepo.Read())
+            {
+                Console.WriteLine($"   Правило для номера { rbn.Number}");
+            }
+          
+            foreach (RuleOfSearchBySpeed rbs in _ruleOfSearchBySpeedRepo.Read())
+            {
+                Console.WriteLine($"   Правило для скорости { rbs.Speed}");
+            }
+
+            foreach (TriggeringByNumber tbn in _triggeringByNumberRepo.Read())
+            {
+                Console.WriteLine($"   Сработка для номера { tbn.CarNumber} Дата сработки {tbn.FixationDate} ");
+            }
+
+            foreach (TriggeringBySpeed tbs in _triggeringBySpeedRepo.Read())
+            {
+                Console.WriteLine($"   Сработка для скорости { tbs.CarSpeed} Дата сработки {tbs.FixationDate} Скорость {tbs.RuleOfSearchBySpeed.Speed}");
+            }
 
             Console.WriteLine();
-
-
-
-            /*
-            using (CameraOperationContext db = new(options))
-            {
-                Console.WriteLine("\nCreate");
-
-                RuleOfSearchByNumber ruleOfSearchByNumber1 = new RuleOfSearchByNumber { User = db.Users.FirstOrDefault(), DateOfCreate = DateTime.Now, Number = "231" };
-                RuleOfSearchByNumber ruleOfSearchByNumber2 = new RuleOfSearchByNumber { User = db.Users.FirstOrDefault(), DateOfCreate = DateTime.Now, Number = "2222" };
-
-                RuleOfSearchBySpeed ruleOfSearchBySpeed1 = new RuleOfSearchBySpeed { User = db.Users.FirstOrDefault(), DateOfCreate = DateTime.Now, Speed = 123 };
-                RuleOfSearchBySpeed ruleOfSearchBySpeed2 = new RuleOfSearchBySpeed { User = db.Users.FirstOrDefault(), DateOfCreate = DateTime.Now, Speed = 90 };
-
-                Fixation fixation1 = new Fixation { FixationDate = DateTime.Now, CarNumber = "231", CarSpeed = 123 };
-                Fixation fixation2 = new Fixation { FixationDate = DateTime.Now, CarNumber = "2222", CarSpeed = 133 };
-                Fixation fixation3 = new Fixation { FixationDate = DateTime.Now, CarNumber = "132", CarSpeed = 104 };
-                Fixation fixation4 = new Fixation { FixationDate = DateTime.Now, CarNumber = "43", CarSpeed = 100 };
-
-                TriggeringByNumber triggeringByNumber1 = new TriggeringByNumber { Fixation = fixation1, CarNumber = fixation1.CarNumber, FixationDate = fixation1.FixationDate, RuleOfSearchByNumber = ruleOfSearchByNumber1 };
-                TriggeringByNumber triggeringByNumber2 = new TriggeringByNumber { Fixation = fixation2, CarNumber = fixation2.CarNumber, FixationDate = fixation2.FixationDate, RuleOfSearchByNumber = ruleOfSearchByNumber2 };
-
-                TriggeringBySpeed triggeringBySpeed1 = new TriggeringBySpeed { Fixation = fixation3, CarSpeed = fixation3.CarSpeed, FixationDate = fixation3.FixationDate, RuleOfSearchBySpeed = ruleOfSearchBySpeed1 };
-                TriggeringBySpeed triggeringBySpeed2 = new TriggeringBySpeed { Fixation = fixation4, CarSpeed = fixation4.CarSpeed, FixationDate = fixation4.FixationDate, RuleOfSearchBySpeed = ruleOfSearchBySpeed1 };
-
-                db.RulesOfSearchByNumber.AddRange(ruleOfSearchByNumber1, ruleOfSearchByNumber2);
-                db.RulesOfSearchBySpeed.AddRange(ruleOfSearchBySpeed1, ruleOfSearchBySpeed2);
-                db.Fixations.AddRange(fixation1, fixation2, fixation3, fixation4);
-                db.TriggeringByNumbers.AddRange(triggeringByNumber1, triggeringByNumber2);
-                db.TriggeringBySpeeds.AddRange(triggeringBySpeed1, triggeringBySpeed2);
-                db.SaveChanges();
-
-                Console.WriteLine("Объекты успешно сохранены\n");
-
-                Console.WriteLine("Read\n");
-                Console.WriteLine("Пользователи:");
-
-                var users = db.Users.Include(rbn => rbn.RulesOfSearchByNumber).Include(rbs => rbs.RulesOfSearchBySpeed).ToList();
-
-                foreach (User u in users)
-                {
-
-                    Console.WriteLine($" Логин: {u.Login}\n Пароль: {u.Password}\n ФИО: {u.Name}\n Список правил: ");
-
-                    Console.WriteLine("  По номеру: ");
-                    foreach (RuleOfSearchByNumber rb in u.RulesOfSearchByNumber)
-                    {
-                        Console.WriteLine($"   Правило для номера { rb.Number} ");
-                    }
-                    Console.WriteLine("  По скорости: ");
-                    foreach (RuleOfSearchBySpeed rb in u.RulesOfSearchBySpeed)
-                    {
-                        Console.WriteLine($"   Правило для скорости { rb.Speed } ");
-                    }
-
-                }
-
-                Console.WriteLine("\nПравила розыска:");
-
-                var rbs = db.RulesOfSearchBySpeed.ToList();
-                var rbn = db.RulesOfSearchByNumber.ToList();
-
-                Console.WriteLine(" По номеру: ");
-
-                Console.WriteLine("  Все правила: ");
-                foreach (RuleOfSearchByNumber rb in rbn)
-                {
-                    Console.WriteLine($"   Пользователь: {rb.User.Name} Дата создания: {rb.DateOfCreate} Правило для номера: { rb.Number} ");
-                }
-
-                Console.WriteLine("\nПоиск правила по номеру. Введите номер: ");
-                string indexOfRuleByNumber = Console.ReadLine();
-                foreach (RuleOfSearchByNumber rb in rbn)
-                {
-                    if (indexOfRuleByNumber.Equals(rb.Number)) { Console.WriteLine($"\nПользователь: {rb.User.Name} Дата создания: {rb.DateOfCreate} Правило для номера: { rb.Number} \n"); }
-
-                }
-
-                Console.WriteLine(" По скорости: ");
-
-                Console.WriteLine("  Все правила: ");
-                foreach (RuleOfSearchBySpeed rb in rbs)
-                {
-                    Console.WriteLine($"   Пользователь: {rb.User.Name} Дата создания: {rb.DateOfCreate} Правило для номера: { rb.Speed} ");
-                }
-
-                Console.WriteLine("\nПоиск правила по скорости. Введите скорость: ");
-                string indexOfRuleBySpeed = Console.ReadLine();
-                int indexOfRuleBySpeed1 = int.Parse(indexOfRuleBySpeed);
-                foreach (RuleOfSearchBySpeed rb in rbs)
-                {
-                    if (indexOfRuleBySpeed1 == rb.Speed) { Console.WriteLine($"\nПользователь {rb.User.Name} Дата создания: {rb.DateOfCreate} Правило для номера: { rb.Speed} "); }
-
-                }
-
-                Console.WriteLine("\nСработки:");
-
-                var tbn = db.TriggeringByNumbers.ToList();
-                var tbs = db.TriggeringBySpeeds.ToList();
-
-                Console.WriteLine(" По номеру: ");
-                foreach (TriggeringByNumber tr in tbn)
-                {
-                    Console.WriteLine($"   Номер автомобиля: {tr.Fixation.CarNumber} - Дата фиксации: {tr.Fixation.FixationDate} ");
-                }
-                Console.WriteLine(" По скорости: ");
-                foreach (TriggeringBySpeed tr in tbs)
-                {
-                    Console.WriteLine($"   Скорость автомобиля: {tr.Fixation.CarSpeed} - Дата фиксации: {tr.Fixation.FixationDate} ");
-                }
-
-                Console.WriteLine("\nФиксациии:");
-
-                var fix = db.Fixations.ToList();
-                foreach (Fixation f in fix)
-                {
-                    Console.WriteLine($"Номер автомбиля: {f.CarNumber} Дата фиксации: {f.FixationDate} Скорость автомобиля: {f.CarSpeed}");
-                }
-
-                Console.WriteLine("\nUpdate\n");
-                Console.WriteLine("Измененные данные правил розыска после обновления:");
-
-                RuleOfSearchByNumber rbn1 = db.RulesOfSearchByNumber.FirstOrDefault(rbn => rbn.Number == "231");
-                if (rbn1 != null)
-                {
-                    rbn1.Number = "3333";
-                    db.SaveChanges();
-                }
-                RuleOfSearchBySpeed rbs1 = db.RulesOfSearchBySpeed.FirstOrDefault(rbn => rbn.Speed == 123);
-                if (rbs1 != null)
-                {
-                    rbs1.Speed = 60;
-                    db.SaveChanges();
-                }
-                Console.WriteLine(" По номеру: ");
-                foreach (RuleOfSearchByNumber rb in rbn)
-                {
-                    Console.WriteLine($"  Пользователь: {rb.User.Name} Дата создания: {rb.DateOfCreate} Правило для номера: { rb.Number} ");
-                }
-                Console.WriteLine(" По скорости: ");
-                foreach (RuleOfSearchBySpeed rb in rbs)
-                {
-                    Console.WriteLine($"  Пользователь: {rb.User.Name} Дата создания: {rb.DateOfCreate} Правило для номера: { rb.Speed} ");
-                }
-
-                Console.WriteLine("\nDelete\n");
-                Console.WriteLine("Измененные данные правил розыска после удаления:");
-
-                RuleOfSearchByNumber rbn2 = db.RulesOfSearchByNumber.FirstOrDefault(rbn => rbn.Number == "2222");
-                if (rbn2 != null)
-                {
-                    db.RulesOfSearchByNumber.Remove(rbn2);
-                    db.SaveChanges();
-                }
-                RuleOfSearchBySpeed rbs2 = db.RulesOfSearchBySpeed.FirstOrDefault(rbn => rbn.Speed == 90);
-                if (rbs2 != null)
-                {
-                    db.RulesOfSearchBySpeed.Remove(rbs2);
-                    db.SaveChanges();
-                }
-
-                var rbs3 = db.RulesOfSearchBySpeed.ToList();
-                var rbn3 = db.RulesOfSearchByNumber.ToList();
-
-                Console.WriteLine(" По номеру: ");
-                foreach (RuleOfSearchByNumber rb in rbn3)
-                {
-                    Console.WriteLine($"  Пользователь: {rb.User.Name} Дата создания: {rb.DateOfCreate} Правило для номера: { rb.Number} ");
-                }
-                Console.WriteLine(" По скорости: ");
-                foreach (RuleOfSearchBySpeed rb in rbs3)
-                {
-                    Console.WriteLine($"  Пользователь: {rb.User.Name} Дата создания: {rb.DateOfCreate} Правило для номера: { rb.Speed} ");
-                }
-
-            }
-            */
 
             return Task.CompletedTask;
         }

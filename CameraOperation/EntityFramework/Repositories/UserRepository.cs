@@ -1,8 +1,9 @@
-﻿using CameraOperation.Models;
+﻿using CamerOperationClassLibrary.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace CameraOperation.EntityFramework.Repositories
+namespace CamerOperationClassLibrary.EntityFramework.Repositories
 {
-    public class UserRepository : IUserRepository<User>
+    public class UserRepository : IRepository<User>
     {
         private readonly ICameraOperationContextFactory _factory;
         public UserRepository(ICameraOperationContextFactory factory)
@@ -14,7 +15,7 @@ namespace CameraOperation.EntityFramework.Repositories
             throw new NotImplementedException();
         }
 
-        public bool Delete(User data)
+        public bool Delete(int id)
         {
             throw new NotImplementedException();
         }
@@ -27,7 +28,9 @@ namespace CameraOperation.EntityFramework.Repositories
 
         public bool Update(User data)
         {
-            throw new NotImplementedException();
+            using var context = _factory.Create();
+            context.Entry(data).State = EntityState.Modified;
+            return true;
         }
     }
 }

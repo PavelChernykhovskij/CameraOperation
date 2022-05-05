@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using CameraOperation.Services;
-using CameraOperation.Models;
-using CameraOperation.EntityFramework.Repositories;
-using CameraOperation.EntityFramework;
+using CamerOperationClassLibrary.Services;
+using CamerOperationClassLibrary.Models;
+using CamerOperationClassLibrary.EntityFramework.Repositories;
+using CamerOperationClassLibrary.EntityFramework;
 
-namespace CameraOperation
+
+namespace CamerOperationClassLibrary
 {
     public class Startup
     {
@@ -18,38 +19,40 @@ namespace CameraOperation
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+            
         }
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
             services.AddOptions();
             services.AddControllers();
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            services.AddSwaggerGen();
 
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.AddProfile<AutoMappingProfile>();
+            });
+
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
             //context
             services.AddDbContext<CameraOperationContext>(
-                options => options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=helloappdb;Trusted_Connection=True;"),
+                options => options.UseSqlServer(connectionString),
                 contextLifetime: ServiceLifetime.Scoped,
                 optionsLifetime: ServiceLifetime.Transient);
 
-
-
-            //services.AddDbContextFactory<CameraOperationContext>(builder => builder
-            //    .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
             services.AddTransient<ICameraOperationContextFactory, CameraOperationContextFactory>();
-            services.AddTransient<IUserRepository<User>, UserRepository>();
-            services.AddTransient<IFixationRepository<Fixation>, FixationRepository>();
-            services.AddTransient<IRuleOfSearchByNumberRepository<RuleOfSearchByNumber>, RuleOfSearchByNumberRepository>();
-            services.AddTransient<IRuleOfSearchBySpeedRepository<RuleOfSearchBySpeed>, RuleOfSearchBySpeedRepository>();
-            services.AddTransient<ITriggeringByNumberRepository<TriggeringByNumber>, TriggeringByNumberRepository>();
-            services.AddTransient<ITriggeringBySpeedRepository<TriggeringBySpeed>, TriggeringBySpeedRepository>();
+
+            services.AddTransient<IRepository<User>, UserRepository>();
+            services.AddTransient<IRepository<Fixation>, FixationRepository>();
+            services.AddTransient<IRepository<RuleOfSearchByNumber>, RuleOfSearchByNumberRepository>();
+            services.AddTransient<IRepository<RuleOfSearchBySpeed>, RuleOfSearchBySpeedRepository>();
+            services.AddTransient<IRepository<TriggeringByNumber>, TriggeringByNumberRepository>();
+            services.AddTransient<IRepository<TriggeringBySpeed>, TriggeringBySpeedRepository>();
+
+            services.AddTransient<IViolationDetector, ViolationByNumberDetector>();
+            services.AddTransient<IViolationDetector, ViolationBySpeedDetector>();
 
             services.AddHostedService<TestRepos>();
-
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +60,12 @@ namespace CameraOperation
         {
             app.UseRouting();
             app.UseEndpoints(conf => conf.MapControllers());
+
+            app.UseSwagger();
+            app.UseSwaggerUI();
         }
+
+
     }
+
 }
